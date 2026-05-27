@@ -1,0 +1,20 @@
+{
+  "jan_kowalski": {
+    "fullName": "Jan Kowalski",
+    "displayName": "Janek Official",
+    "bio": "Najlepsze treści premium! 🔥",
+    "avatar": "https://randomuser.me/api/portraits/men/1.jpg",
+    "banner": "https://picsum.photos/1200/400",
+    "webhook": "",
+    "created": "2024-01-15T10:00:00.000Z"
+  },
+  "anna_nowak": {
+    "fullName": "Anna Nowak",
+    "displayName": "Anna Official",
+    "bio": "Codzienne nowości ✨",
+    "avatar": "https://randomuser.me/api/portraits/women/1.jpg",
+    "banner": "https://picsum.photos/1200/400?grayscale",
+    "webhook": "",
+    "created": "2024-01-16T12:00:00.000Z"
+  }
+}
