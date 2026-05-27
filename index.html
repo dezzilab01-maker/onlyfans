@@ -2,498 +2,298 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Twój Profil | Załóż konto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FanClub | Utwórz profil</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: radial-gradient(circle at 20% 30%, #0a0a0a, #000000);
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 24px 16px;
-        }
-
-        /* szkło + głębia */
-        .form-card {
-            background: rgba(12, 12, 20, 0.85);
-            backdrop-filter: blur(18px);
-            border-radius: 48px;
-            padding: 32px 28px 40px 28px;
-            max-width: 680px;
-            width: 100%;
-            border: 1px solid rgba(255, 50, 100, 0.25);
-            box-shadow: 0 30px 50px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,50,100,0.1) inset;
-            transition: all 0.2s;
-        }
-
-        h1 {
-            font-size: 2.1rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ffffff 30%, #ff3b6f 80%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .subhead {
-            text-align: center;
-            color: #9ca3af;
-            font-size: 0.85rem;
-            margin-bottom: 32px;
-            border-bottom: 1px dashed #2a2a3a;
-            display: inline-block;
-            width: auto;
-            margin-left: auto;
-            margin-right: auto;
-            padding-bottom: 12px;
-        }
-
-        .field-group {
-            margin-bottom: 24px;
-        }
-
-        label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #e2e8f0;
-            font-weight: 500;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-
-        label i {
-            font-style: normal;
-            font-size: 1.1rem;
-        }
-
-        input, textarea {
-            width: 100%;
-            background: #0f0f17;
-            border: 1.5px solid #2a2a36;
-            border-radius: 28px;
-            padding: 14px 20px;
-            font-size: 1rem;
-            color: white;
-            transition: 0.2s ease;
-            font-family: inherit;
-            outline: none;
-        }
-
-        textarea {
-            border-radius: 28px;
-            resize: vertical;
-            min-height: 95px;
-        }
-
-        input:focus, textarea:focus {
-            border-color: #ff2e63;
-            box-shadow: 0 0 0 3px rgba(255, 46, 99, 0.2);
-            background: #12121c;
-        }
-
-        /* strefa preview obrazów */
-        .preview-grid {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-
-        .preview-item {
-            flex: 1;
-            min-width: 130px;
-            background: #09090f;
-            border-radius: 28px;
-            padding: 12px;
-            text-align: center;
-            border: 1px solid #252530;
-        }
-
-        .preview-label {
-            font-size: 0.7rem;
-            color: #a1a1aa;
-            margin-bottom: 8px;
-            letter-spacing: 0.3px;
-        }
-
-        .avatar-preview {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #1e1e2a;
-            border: 2px solid #ff2e63;
-            margin: 0 auto 10px auto;
-            display: block;
-        }
-
-        .banner-preview {
-            width: 100%;
-            height: 95px;
-            object-fit: cover;
-            border-radius: 20px;
-            background: #1a1a24;
-            border: 1px solid #3a3a4a;
-            margin-bottom: 6px;
-        }
-
-        .file-input-custom {
-            position: relative;
-            margin-top: 8px;
-        }
-
-        .file-input-custom input {
-            opacity: 0;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .fake-button {
-            background: #1e1e2e;
-            border-radius: 60px;
-            padding: 8px 12px;
-            font-size: 0.75rem;
-            color: #ccc;
-            text-align: center;
-            border: 1px solid #333344;
-            transition: 0.1s;
-        }
-
-        .submit-btn {
-            background: linear-gradient(95deg, #ff2e63, #e61e4d);
-            width: 100%;
-            border: none;
-            border-radius: 60px;
-            padding: 16px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: white;
-            margin-top: 24px;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 8px 20px rgba(255, 46, 99, 0.3);
-            letter-spacing: 0.5px;
-        }
-
-        .submit-btn:hover {
-            transform: scale(1.01);
-            background: linear-gradient(95deg, #ff3b6f, #ff1744);
-            box-shadow: 0 12px 28px rgba(255, 46, 99, 0.5);
-        }
-
-        .success-message {
-            margin-top: 24px;
-            background: rgba(0, 200, 150, 0.15);
-            border: 1px solid #00c896;
-            border-radius: 60px;
-            padding: 14px;
-            text-align: center;
-            color: #8effd0;
-            font-weight: 500;
-            display: none;
-            backdrop-filter: blur(8px);
-            font-size: 0.9rem;
-        }
-
-        .row-2cols {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-        .row-2cols .field-group {
-            flex: 1;
-        }
-
-        hr {
-            border-color: #2a2a36;
-            margin: 18px 0;
-        }
-        .required-star::after {
-            content: "*";
-            color: #ff2e63;
-            margin-left: 4px;
-        }
-        small {
-            color: #6c6c7e;
-            font-size: 0.7rem;
-            display: block;
-            margin-top: 6px;
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#0a0a0a;color:#fff}
+        .register-page{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:24px 16px;background:radial-gradient(circle at 20% 30%,#0f0f1a,#000)}
+        .only-card{background:rgba(12,12,20,.95);backdrop-filter:blur(16px);border-radius:32px;padding:36px 32px 44px;max-width:720px;width:100%;border:1px solid rgba(255,46,99,.4);box-shadow:0 25px 45px -12px rgba(0,0,0,.8)}
+        h1{font-size:2rem;background:linear-gradient(135deg,#fff,#ff3b6f);-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;margin-bottom:8px}
+        .subhead{text-align:center;color:#9ca3af;font-size:.85rem;margin-bottom:32px;padding-bottom:12px;border-bottom:1px dashed #2a2a3a;display:inline-block;width:auto;margin-left:auto;margin-right:auto}
+        .field-group{margin-bottom:24px}
+        label{display:flex;align-items:center;gap:8px;color:#e2e8f0;font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+        input,textarea{width:100%;background:#0f0f17;border:1.5px solid #2a2a36;border-radius:28px;padding:14px 20px;font-size:1rem;color:#fff;transition:.2s;font-family:inherit;outline:none}
+        textarea{border-radius:28px;resize:vertical;min-height:95px}
+        input:focus,textarea:focus{border-color:#ff2e63;box-shadow:0 0 0 3px rgba(255,46,99,.2);background:#12121c}
+        .preview-grid{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px}
+        .preview-item{flex:1;min-width:130px;background:#09090f;border-radius:28px;padding:12px;text-align:center;border:1px solid #252530}
+        .preview-label{font-size:.7rem;color:#a1a1aa;margin-bottom:8px}
+        .avatar-preview{width:100px;height:100px;border-radius:50%;object-fit:cover;background:#1e1e2a;border:2px solid #ff2e63;margin:0 auto 10px auto;display:block}
+        .banner-preview{width:100%;height:95px;object-fit:cover;border-radius:20px;background:#1a1a24;border:1px solid #3a3a4a;margin-bottom:6px}
+        .file-input-custom{position:relative;margin-top:8px}
+        .file-input-custom input{opacity:0;position:absolute;width:100%;height:100%;cursor:pointer}
+        .fake-button{background:#1e1e2e;border-radius:60px;padding:8px 12px;font-size:.75rem;color:#ccc;text-align:center;border:1px solid #333344}
+        .submit-btn{background:linear-gradient(95deg,#ff2e63,#e61e4d);width:100%;border:none;border-radius:60px;padding:16px;font-size:1.1rem;font-weight:700;color:#fff;margin-top:24px;cursor:pointer;transition:all .2s;box-shadow:0 8px 20px rgba(255,46,99,.3)}
+        .submit-btn:hover{transform:scale(1.01);background:linear-gradient(95deg,#ff3b6f,#ff1744);box-shadow:0 12px 28px rgba(255,46,99,.5)}
+        .row-2cols{display:flex;gap:14px;flex-wrap:wrap}
+        .row-2cols .field-group{flex:1}
+        hr{border-color:#2a2a36;margin:18px 0}
+        .required-star::after{content:"*";color:#ff2e63;margin-left:4px}
+        small{color:#6c6c7e;font-size:.7rem;display:block;margin-top:6px}
+        .profile-page{min-height:100vh;background:#000;padding-bottom:60px}
+        .banner-area{width:100%;height:300px;background:linear-gradient(135deg,#1a1a2e,#0d0d1a);position:relative;overflow:hidden}
+        .banner-img{width:100%;height:100%;object-fit:cover}
+        .profile-container{max-width:1200px;margin:0 auto;padding:0 20px}
+        .profile-header{display:flex;flex-direction:column;align-items:center;margin-top:-60px;position:relative;z-index:2}
+        .avatar-frame{width:120px;height:120px;border-radius:50%;border:4px solid #ff2e63;background:#1a1a2e;overflow:hidden;margin-bottom:16px;box-shadow:0 10px 25px rgba(0,0,0,.5)}
+        .avatar-img{width:100%;height:100%;object-fit:cover}
+        .profile-name{font-size:28px;font-weight:700;margin-bottom:8px;text-align:center}
+        .profile-username{color:#ff2e63;font-size:18px;margin-bottom:16px;text-align:center}
+        .profile-bio{background:rgba(255,255,255,.05);border-radius:20px;padding:20px;max-width:600px;margin:20px auto;text-align:center;line-height:1.5;color:#ccc}
+        .nav-bar{background:#0a0a0a;border-bottom:1px solid #2a2a36;padding:16px 0;position:sticky;top:0;z-index:10}
+        .nav-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+        .logo{font-size:24px;font-weight:700;background:linear-gradient(135deg,#fff,#ff3b6f);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .back-btn{background:#1e1e2e;border:none;padding:8px 20px;border-radius:40px;color:#fff;cursor:pointer;font-weight:500;transition:.2s}
+        .back-btn:hover{background:#ff2e63}
+        .content-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-top:40px}
+        .post-card{background:#111;border-radius:20px;overflow:hidden;border:1px solid #2a2a36;transition:.2s}
+        .post-card:hover{transform:translateY(-4px);border-color:#ff2e63}
+        .post-media{width:100%;height:250px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;color:#666}
+        .section-title{font-size:24px;margin:40px 0 20px;color:#fff}
+        .locked-badge{display:inline-block;background:#ff2e63;padding:4px 12px;border-radius:20px;font-size:12px;margin-left:12px}
+        @media (max-width:768px){.profile-container{padding:0 16px}.avatar-frame{width:100px;height:100px}.banner-area{height:200px}}
     </style>
 </head>
 <body>
-
-<div class="form-card">
-    <h1>🔞 utwórz profil</h1>
-    <div style="text-align: center;">
-        <div class="subhead">wypełnij poniższe dane — tylko tyle wystarczy</div>
-    </div>
-
-    <form id="profileForm">
-        <!-- Imię i Nazwisko w jednym rzędzie -->
-        <div class="row-2cols">
-            <div class="field-group">
-                <label><i>👤</i> <span class="required-star">Imię</span></label>
-                <input type="text" id="firstName" placeholder="Jan" autocomplete="off" required>
-            </div>
-            <div class="field-group">
-                <label><i>📛</i> <span class="required-star">Nazwisko</span></label>
-                <input type="text" id="lastName" placeholder="Kowalski" autocomplete="off" required>
-            </div>
-        </div>
-
-        <!-- Zdjęcie profilowe + baner (preview live) -->
-        <div class="preview-grid">
-            <div class="preview-item">
-                <div class="preview-label">🖼️ ZDJĘCIE PROFILOWE</div>
-                <img id="avatarPreview" class="avatar-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2322222e'/%3E%3Ctext x='50' y='67' font-size='40' text-anchor='middle' fill='%23666'%3E📸%3C/text%3E%3C/svg%3E" alt="avatar preview">
-                <div class="file-input-custom">
-                    <div class="fake-button">📁 Wybierz zdjęcie</div>
-                    <input type="file" id="avatarFile" accept="image/jpeg, image/png, image/webp, image/jpg">
-                </div>
-                <small>max 5MB · kwadrat</small>
-            </div>
-            <div class="preview-item">
-                <div class="preview-label">🎨 BANER (NAGŁÓWEK)</div>
-                <img id="bannerPreview" class="banner-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='100' viewBox='0 0 300 100'%3E%3Crect width='300' height='100' fill='%231b1b26'/%3E%3Ctext x='150' y='55' text-anchor='middle' fill='%23555' font-size='14'%3Ebaner%3C/text%3E%3C/svg%3E" alt="banner preview">
-                <div class="file-input-custom">
-                    <div class="fake-button">🌄 Wybierz baner</div>
-                    <input type="file" id="bannerFile" accept="image/jpeg, image/png, image/webp">
-                </div>
-                <small>szeroki obraz (zalecany 1200x400)</small>
-            </div>
-        </div>
-
-        <!-- Nazwa wyświetlana -->
-        <div class="field-group">
-            <label><i>✨</i> <span class="required-star">Nazwa wyświetlana</span></label>
-            <input type="text" id="displayName" placeholder="np. Janusz Ekskluzywny" required>
-        </div>
-
-        <!-- Opis -->
-        <div class="field-group">
-            <label><i>📝</i> Opis profilu</label>
-            <textarea id="bio" placeholder="Kilka słów o sobie, pasje, klimat..."></textarea>
-        </div>
-
-        <!-- @nazwa użytkownika -->
-        <div class="field-group">
-            <label><i>@</i> <span class="required-star">Nazwa użytkownika</span></label>
-            <input type="text" id="username" placeholder="@jan_kowalski_ofc" required>
-            <small>unikalny identyfikator · tylko litery, cyfry, podkreślnik</small>
-        </div>
-
-        <hr>
-
-        <button type="submit" class="submit-btn">✔️ ZAPISZ DANE — GOTOWE</button>
-        <div id="successBox" class="success-message">
-            ✅ Profil kompletny! Twoje dane zostały odebrane.
-        </div>
-    </form>
-</div>
-
-<script>
-    (function() {
-        // PODGLĄD ZDJĘCIA PROFILOWEGO
-        const avatarInput = document.getElementById('avatarFile');
-        const avatarPreview = document.getElementById('avatarPreview');
-        const bannerInput = document.getElementById('bannerFile');
-        const bannerPreview = document.getElementById('bannerPreview');
-
-        if (avatarInput) {
-            avatarInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        avatarPreview.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                } else if (file) {
-                    alert("Wybierz poprawny plik graficzny (jpg, png, webp)");
-                }
+    <div id="app"></div>
+    <script>
+        const STORAGE_KEY = 'fanclub_profiles';
+        
+        function saveProfile(data) {
+            const profiles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            profiles[data.username] = data;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles));
+        }
+        
+        function getProfile(username) {
+            const profiles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            return profiles[username];
+        }
+        
+        function getAllProfiles() {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        }
+        
+        function generateSlug(name) {
+            return '@' + name.toLowerCase().replace(/[^a-z0-9_]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+        }
+        
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                if (!file) { resolve(null); return; }
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
             });
         }
-
-        if (bannerInput) {
-            bannerInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        bannerPreview.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                } else if (file) {
-                    alert("Baner musi być obrazem (jpg, png, webp)");
-                }
+        
+        function ProfilePage({ username, profile }) {
+            return `
+                <div class="profile-page">
+                    <div class="nav-bar">
+                        <div class="nav-content">
+                            <div class="logo">FanClub</div>
+                            <button class="back-btn" onclick="window.location.href='/'">← Strona główna</button>
+                        </div>
+                    </div>
+                    <div class="banner-area">
+                        ${profile.banner ? `<img class="banner-img" src="${profile.banner}" alt="banner">` : '<div class="banner-img" style="background:linear-gradient(135deg,#ff2e63,#6a0572)"></div>'}
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-header">
+                            <div class="avatar-frame">
+                                ${profile.avatar ? `<img class="avatar-img" src="${profile.avatar}" alt="avatar">` : '<div class="avatar-img" style="background:#2a2a36;display:flex;align-items:center;justify-content:center;font-size:48px">👤</div>'}
+                            </div>
+                            <div class="profile-name">${escapeHtml(profile.displayName)}</div>
+                            <div class="profile-username">${escapeHtml(username)}</div>
+                            ${profile.bio ? `<div class="profile-bio">${escapeHtml(profile.bio).replace(/\n/g,'<br>')}</div>` : '<div class="profile-bio" style="color:#666">Brak opisu</div>'}
+                        </div>
+                        <div class="section-title">
+                            Treści 🔒 <span class="locked-badge">subskrypcja</span>
+                        </div>
+                        <div class="content-grid">
+                            ${[1,2,3].map(i => `
+                                <div class="post-card">
+                                    <div class="post-media">📸 Przykładowy post ${i}</div>
+                                    <div style="padding:16px">
+                                        <div style="color:#ff2e63;font-weight:600">Dostępne dla subskrybentów</div>
+                                        <div style="color:#888;font-size:14px;margin-top:8px">Zasubskrybuj, aby zobaczyć pełną zawartość</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function RegisterPage() {
+            return `
+                <div class="register-page">
+                    <div class="only-card">
+                        <h1>🔞 FanClub</h1>
+                        <div style="text-align:center"><div class="subhead">utwórz swój profil twórcy</div></div>
+                        <form id="profileForm">
+                            <div class="row-2cols">
+                                <div class="field-group">
+                                    <label><span class="required-star">Imię</span></label>
+                                    <input type="text" id="firstName" placeholder="Jan" required>
+                                </div>
+                                <div class="field-group">
+                                    <label><span class="required-star">Nazwisko</span></label>
+                                    <input type="text" id="lastName" placeholder="Kowalski" required>
+                                </div>
+                            </div>
+                            <div class="preview-grid">
+                                <div class="preview-item">
+                                    <div class="preview-label">🖼️ ZDJĘCIE PROFILOWE</div>
+                                    <img id="avatarPreview" class="avatar-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2322222e'/%3E%3Ctext x='50' y='67' font-size='40' text-anchor='middle' fill='%23666'%3E📸%3C/text%3E%3C/svg%3E">
+                                    <div class="file-input-custom">
+                                        <div class="fake-button">📁 Wybierz zdjęcie</div>
+                                        <input type="file" id="avatarFile" accept="image/jpeg,image/png,image/webp">
+                                    </div>
+                                </div>
+                                <div class="preview-item">
+                                    <div class="preview-label">🎨 BANER</div>
+                                    <img id="bannerPreview" class="banner-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='100' viewBox='0 0 300 100'%3E%3Crect width='300' height='100' fill='%231b1b26'/%3E%3Ctext x='150' y='55' text-anchor='middle' fill='%23555'%3Ebaner%3C/text%3E%3C/svg%3E">
+                                    <div class="file-input-custom">
+                                        <div class="fake-button">🌄 Wybierz baner</div>
+                                        <input type="file" id="bannerFile" accept="image/jpeg,image/png,image/webp">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label><span class="required-star">Nazwa wyświetlana</span></label>
+                                <input type="text" id="displayName" placeholder="Janek Official" required>
+                            </div>
+                            <div class="field-group">
+                                <label>Opis profilu</label>
+                                <textarea id="bio" placeholder="Opisz siebie..."></textarea>
+                            </div>
+                            <div class="field-group">
+                                <label><span class="required-star">@nazwa użytkownika</span></label>
+                                <input type="text" id="username" placeholder="jan_kowalski" required>
+                                <small>tylko litery, cyfry, podkreślnik</small>
+                            </div>
+                            <hr>
+                            <button type="submit" class="submit-btn">✨ UTWÓRZ PROFIL</button>
+                            <div id="successBox" style="margin-top:20px;background:rgba(0,200,150,.15);border:1px solid #00c896;border-radius:60px;padding:12px;text-align:center;color:#8effd0;display:none"></div>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function escapeHtml(str) {
+            if(!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if(m === '&') return '&amp;';
+                if(m === '<') return '&lt;';
+                if(m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
             });
         }
-
-        // FORMULARZ - przechwycenie danych i wyświetlenie w konsoli + na stronie (brak wysyłki na serwer)
-        const form = document.getElementById('profileForm');
-        const successDiv = document.getElementById('successBox');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Pobranie wartości
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            const displayName = document.getElementById('displayName').value.trim();
-            const usernameRaw = document.getElementById('username').value.trim();
-            const bio = document.getElementById('bio').value.trim();
-
-            // Walidacja podstawowa
-            if (!firstName || !lastName || !displayName || !usernameRaw) {
-                alert("❌ Uzupełnij wszystkie wymagane pola: Imię, Nazwisko, Nazwa wyświetlana, @nazwa");
+        
+        function render() {
+            const path = window.location.pathname;
+            const app = document.getElementById('app');
+            
+            if(path.startsWith('/@')) {
+                const username = path.substring(2);
+                const profile = getProfile(username);
+                if(profile) {
+                    app.innerHTML = ProfilePage({ username: '@'+username, profile });
+                } else {
+                    app.innerHTML = `<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000"><h2>❌ Profil nie istnieje</h2><button class="back-btn" onclick="window.location.href='/'">Wróć na stronę główną</button></div>`;
+                }
                 return;
             }
-
-            // Walidacja @nazwa (tylko dozwolone znaki)
-            const usernameRegex = /^@?[a-zA-Z0-9_]+$/;
-            let cleanUsername = usernameRaw;
-            if (cleanUsername.startsWith('@')) {
-                cleanUsername = cleanUsername.substring(1);
+            
+            app.innerHTML = RegisterPage();
+            
+            const avatarInput = document.getElementById('avatarFile');
+            const avatarPreview = document.getElementById('avatarPreview');
+            const bannerInput = document.getElementById('bannerFile');
+            const bannerPreview = document.getElementById('bannerPreview');
+            const form = document.getElementById('profileForm');
+            const successBox = document.getElementById('successBox');
+            
+            if(avatarInput) {
+                avatarInput.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if(file && file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => { avatarPreview.src = ev.target.result; };
+                        reader.readAsDataURL(file);
+                    }
+                };
             }
-            if (!usernameRegex.test(cleanUsername)) {
-                alert("❌ Nazwa użytkownika może zawierać tylko litery, cyfry i podkreślnik (_). Bez spacji i znaków specjalnych.");
-                return;
+            if(bannerInput) {
+                bannerInput.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if(file && file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => { bannerPreview.src = ev.target.result; };
+                        reader.readAsDataURL(file);
+                    }
+                };
             }
-            const finalUsername = '@' + cleanUsername;
-
-            // Pobranie plików (obiektów File)
-            const avatarFile = document.getElementById('avatarFile').files[0];
-            const bannerFile = document.getElementById('bannerFile').files[0];
-
-            // Przygotowanie nazw plików lub informacji o braku pliku
-            let avatarFileName = 'brak zdjęcia';
-            let bannerFileName = 'brak baneru';
-            let avatarBase64 = null;
-            let bannerBase64 = null;
-
-            // Funkcja do konwersji pliku na Base64 (dla podglądu w konsoli / ewentualnie zapisu)
-            const fileToBase64 = (file) => {
-                return new Promise((resolve) => {
-                    if (!file) {
-                        resolve(null);
+            if(form) {
+                form.onsubmit = async (e) => {
+                    e.preventDefault();
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const lastName = document.getElementById('lastName').value.trim();
+                    const displayName = document.getElementById('displayName').value.trim();
+                    let usernameRaw = document.getElementById('username').value.trim();
+                    const bio = document.getElementById('bio').value.trim();
+                    const avatarFile = document.getElementById('avatarFile').files[0];
+                    const bannerFile = document.getElementById('bannerFile').files[0];
+                    
+                    if(!firstName || !lastName || !displayName || !usernameRaw) {
+                        alert("Wypełnij wszystkie wymagane pola");
                         return;
                     }
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        resolve(reader.result);
+                    
+                    let cleanUsername = usernameRaw.replace(/^@/, '');
+                    if(!/^[a-zA-Z0-9_]+$/.test(cleanUsername)) {
+                        alert("Nazwa użytkownika może zawierać tylko litery, cyfry i podkreślnik");
+                        return;
+                    }
+                    
+                    const finalUsername = cleanUsername;
+                    const existing = getProfile(finalUsername);
+                    if(existing) {
+                        alert("Ta nazwa użytkownika jest już zajęta");
+                        return;
+                    }
+                    
+                    const avatarBase64 = avatarFile ? await fileToBase64(avatarFile) : null;
+                    const bannerBase64 = bannerFile ? await fileToBase64(bannerFile) : null;
+                    
+                    const profileData = {
+                        firstName, lastName, displayName, bio: bio || '',
+                        avatar: avatarBase64,
+                        banner: bannerBase64,
+                        username: finalUsername,
+                        createdAt: new Date().toISOString()
                     };
-                    reader.readAsDataURL(file);
-                });
-            };
-
-            // Asynchroniczne przetwarzanie, żeby pokazać pełny podgląd w konsoli
-            (async () => {
-                if (avatarFile) avatarFileName = avatarFile.name;
-                if (bannerFile) bannerFileName = bannerFile.name;
-
-                const avatarDataURL = await fileToBase64(avatarFile);
-                const bannerDataURL = await fileToBase64(bannerFile);
-
-                // KOMPLETNY OBIEKт DANYCH
-                const profileData = {
-                    timestamp: new Date().toISOString(),
-                    imie: firstName,
-                    nazwisko: lastName,
-                    nazwa_wyswietlana: displayName,
-                    nazwa_uzytkownika: finalUsername,
-                    opis_profilu: bio || "(brak opisu)",
-                    plik_avatar: {
-                        nazwa: avatarFileName,
-                        base64_preview: avatarDataURL ? avatarDataURL.substring(0, 100) + '...[TRUNCATED]' : null,
-                        pelny_base64: avatarDataURL ? '(ukryty w konsoli — za długi)' : null
-                    },
-                    plik_baner: {
-                        nazwa: bannerFileName,
-                        base64_preview: bannerDataURL ? bannerDataURL.substring(0, 100) + '...[TRUNCATED]' : null
-                    },
-                    uwaga: "Pełne dane + obrazki (base64) dostępne w konsoli developerskiej (F12)"
+                    
+                    saveProfile(finalUsername, profileData);
+                    successBox.style.display = 'block';
+                    successBox.innerHTML = `✅ Profil utworzony! Przekierowanie za 2 sekundy...`;
+                    setTimeout(() => {
+                        window.location.href = `/@${finalUsername}`;
+                    }, 1500);
                 };
-
-                // Pełna wersja Z PEŁNYM BASE64 do debugu (opcjonalnie do zapisu)
-                const fullDataForConsole = {
-                    ...profileData,
-                    plik_avatar: {
-                        nazwa: avatarFileName,
-                        base64_kompletny: avatarDataURL || null
-                    },
-                    plik_baner: {
-                        nazwa: bannerFileName,
-                        base64_kompletny: bannerDataURL || null
-                    }
-                };
-
-                // Wypisanie do konsoli w eleganckiej formie
-                console.log("📦🔞 DANE Z FORMULARZA (profil OnlyFans-style):");
-                console.log("--------------------------------------------------");
-                console.log("👤 Imię i nazwisko:", firstName, lastName);
-                console.log("🏷️  Nazwa wyświetlana:", displayName);
-                console.log("🔗 @username:", finalUsername);
-                console.log("📝 Opis:", bio || "---");
-                console.log("🖼️ Zdjęcie profilowe (plik):", avatarFileName);
-                console.log("🎨 Baner (plik):", bannerFileName);
-                if (avatarDataURL) {
-                    console.log("📸 AVATAR BASE64 (początek):", avatarDataURL.substring(0, 80) + "...");
-                }
-                if (bannerDataURL) {
-                    console.log("🌄 BANER BASE64 (początek):", bannerDataURL.substring(0, 80) + "...");
-                }
-                console.log("📦 Pełen obiekt (z pełnymi base64, jeśli chcesz skopiować):");
-                console.log(fullDataForConsole);
-                console.log("--------------------------------------------------");
-
-                // Wyświetlenie komunikatu sukcesu w UI
-                successDiv.style.display = 'block';
-                // Dodatkowo podmieniamy treść na bardziej szczegółową (ale bez floodu wizualnego)
-                successDiv.innerHTML = `✅ Profil utworzony! <strong>${displayName}</strong> (${finalUsername})<br>📸 ${avatarFileName} · 🎨 ${bannerFileName}<br><span style="font-size:12px;">✔️ Dane zapisane w konsoli (F12). Możesz zamknąć to okno.</span>`;
-                
-                // Automatyczne ukrycie po 7 sekundach
-                setTimeout(() => {
-                    if (successDiv) {
-                        successDiv.style.opacity = '0';
-                        setTimeout(() => {
-                            successDiv.style.display = 'none';
-                            successDiv.style.opacity = '1';
-                            // przywróć domyślną treść na przyszłość
-                            successDiv.innerHTML = `✅ Profil kompletny! Twoje dane zostały odebrane.`;
-                        }, 400);
-                    }
-                }, 7000);
-
-                // opcjonalnie – możesz zresetować formularz? (ale user może chcieć widzieć dane)
-                // według wymagań: tylko formularz i podanie danych – NIC WIĘCEJ. NIE resetujemy automatycznie.
-                // Pozostawiamy dane w polach, żeby mógł zobaczyć co wpisał.
-            })().catch(err => {
-                console.error("Błąd przy przetwarzaniu plików:", err);
-                alert("Wystąpił błąd podczas odczytu plików, ale dane tekstowe zostały zapisane w konsoli.");
-                // fallback: zapisz przynajmniej dane tekstowe
-                console.log("TEXT DATA:", { firstName, lastName, displayName, finalUsername, bio });
-                successDiv.style.display = 'block';
-                successDiv.innerHTML = "⚠️ Dane zapisane (bez obrazków w konsoli? sprawdź błędy).";
-            });
-        });
-    })();
-</script>
+            }
+        }
+        
+        window.addEventListener('popstate', render);
+        render();
+    </script>
 </body>
 </html>
