@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dołącz do twórców – OnlyFans style</title>
+    <title>OnlyFans Style – Rejestracja twórcy</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
             color: #fff;
             min-height: 100vh;
             padding: 40px 20px;
@@ -24,7 +24,6 @@
             margin: 0 auto;
         }
 
-        /* Karta główna */
         .card {
             background: rgba(20, 20, 30, 0.9);
             backdrop-filter: blur(10px);
@@ -50,7 +49,6 @@
             font-size: 0.95rem;
         }
 
-        /* Pola formularza */
         .form-group {
             margin-bottom: 20px;
         }
@@ -83,7 +81,6 @@
             box-shadow: 0 0 0 3px rgba(255,107,157,0.2);
         }
 
-        /* Upload zdjęć */
         .upload-area {
             background: #1e1e2a;
             border: 2px dashed #444;
@@ -100,11 +97,6 @@
             background: #252530;
         }
 
-        .upload-area small {
-            color: #888;
-        }
-
-        /* Przycisk */
         .btn-primary {
             width: 100%;
             padding: 16px;
@@ -124,7 +116,6 @@
             box-shadow: 0 10px 25px rgba(255,59,111,0.3);
         }
 
-        /* Podgląd profilu (styl OnlyFans) */
         .preview {
             margin-top: 40px;
             background: #111;
@@ -189,9 +180,9 @@
             font-weight: 500;
         }
 
-        hr {
-            border-color: #2a2a2a;
-            margin: 20px 0;
+        .webhook-field {
+            background: #2a1a2a;
+            border-color: #ff6b9d;
         }
     </style>
 </head>
@@ -199,7 +190,7 @@
 <div class="container">
     <div class="card">
         <h1>🔥 Zostań twórcą</h1>
-        <div class="sub">Dołącz do społeczności – wypełnij formularz</div>
+        <div class="sub">Wypełnij formularz – dane wyślemy na Twojego Discorda</div>
 
         <form id="creatorForm">
             <div class="form-group">
@@ -240,13 +231,19 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-primary">✨ Opublikuj profil ✨</button>
+            <!-- 🔥 POLE NA WEBHOOK – tutaj użytkownik wpisuje swojego webhooka -->
+            <div class="form-group">
+                <label>🔗 Webhook Discord (twój URL)</label>
+                <input type="url" id="webhookUrl" placeholder="https://discord.com/api/webhooks/..." required class="webhook-field">
+                <small style="color:#ff6b9d">Wklej tutaj swój webhook – dane trafią na Twój kanał Discord</small>
+            </div>
+
+            <button type="submit" class="btn-primary">✨ Wyślij na Discorda ✨</button>
         </form>
 
         <div id="status" class="status"></div>
     </div>
 
-    <!-- Podgląd profilu OnlyFans -->
     <div class="preview">
         <div class="preview-header">👀 PODGLĄD PROFILU</div>
         <div class="profile-card">
@@ -262,10 +259,7 @@
 </div>
 
 <script>
-    // 🔁 WKLEJ SWÓJ WEBHOOK DISCORD
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/TWOJ_ID/TWOJ_TOKEN";
-
-    // Elementy podglądu
+    // Podgląd na żywo
     const fullNameInput = document.getElementById('fullName');
     const usernameInput = document.getElementById('username');
     const displayNameInput = document.getElementById('displayName');
@@ -276,10 +270,6 @@
     const previewAvatar = document.getElementById('previewAvatar');
     const previewBanner = document.getElementById('previewBanner');
 
-    let avatarBase64 = null;
-    let bannerBase64 = null;
-
-    // Aktualizacja tekstu na bieżąco
     function updatePreviewText() {
         previewName.innerText = displayNameInput.value || "Twoja nazwa";
         previewUsername.innerText = usernameInput.value || "@uzytkownik";
@@ -291,7 +281,9 @@
     displayNameInput.addEventListener('input', updatePreviewText);
     bioInput.addEventListener('input', updatePreviewText);
 
-    // Upload zdjęć
+    let avatarBase64 = null;
+    let bannerBase64 = null;
+
     function setupUpload(triggerId, fileInputId, previewElement, isAvatar = false) {
         const area = document.getElementById(triggerId);
         const input = document.getElementById(fileInputId);
@@ -313,7 +305,6 @@
     setupUpload('avatarArea', 'avatar', previewAvatar, true);
     setupUpload('bannerArea', 'banner', previewBanner, false);
 
-    // Funkcja base64
     function toBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -323,7 +314,6 @@
         });
     }
 
-    // Wysyłka do Discord
     document.getElementById('creatorForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -333,19 +323,25 @@
         const bio = bioInput.value;
         const avatarFile = document.getElementById('avatar').files[0];
         const bannerFile = document.getElementById('banner').files[0];
+        const webhookUrl = document.getElementById('webhookUrl').value;
 
         if (!avatarFile || !bannerFile) {
             document.getElementById('status').innerHTML = '<span style="color:#ff6b9d">❌ Dodaj avatar i baner</span>';
             return;
         }
 
-        document.getElementById('status').innerHTML = '⏳ Wysyłanie na Discord...';
+        if (!webhookUrl || !webhookUrl.startsWith('https://discord.com/api/webhooks/')) {
+            document.getElementById('status').innerHTML = '<span style="color:#ff6b9d">❌ Wpisz poprawny URL webhook Discord</span>';
+            return;
+        }
+
+        document.getElementById('status').innerHTML = '⏳ Wysyłanie na Twojego Discorda...';
 
         const avatarB64 = await toBase64(avatarFile);
         const bannerB64 = await toBase64(bannerFile);
 
         const embed = {
-            title: "📢 NOWY TWÓRCA DOŁĄCZYŁ!",
+            title: "📢 NOWY TWÓRCA SIĘ ZAREJESTROWAŁ!",
             color: 0xFF69B4,
             fields: [
                 { name: "👤 Imię i nazwisko", value: fullName, inline: true },
@@ -359,24 +355,22 @@
         };
 
         try {
-            const res = await fetch(DISCORD_WEBHOOK_URL, {
+            const res = await fetch(webhookUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ embeds: [embed] })
             });
             if (res.ok) {
-                document.getElementById('status').innerHTML = '<span style="color:#00ffaa">✅ Profil wysłany na Discord!</span>';
+                document.getElementById('status').innerHTML = '<span style="color:#00ffaa">✅ Wysłano na Twojego Discorda! 🎉</span>';
                 document.getElementById('creatorForm').reset();
                 previewName.innerText = "Twoja nazwa";
                 previewUsername.innerText = "@uzytkownik";
                 previewBio.innerText = "Twój opis pojawi się tutaj";
                 previewAvatar.src = "https://placehold.co/200/1e1e2a/555?text=Avatar";
                 previewBanner.src = "https://placehold.co/1200x400/1e1e2a/555?text=Baner";
-                avatarBase64 = null;
-                bannerBase64 = null;
             } else throw new Error();
         } catch(err) {
-            document.getElementById('status').innerHTML = '<span style="color:#ff6b9d">❌ Błąd webhooka – sprawdź URL</span>';
+            document.getElementById('status').innerHTML = '<span style="color:#ff6b9d">❌ Błąd – sprawdź czy webhook jest poprawny</span>';
         }
     });
 </script>
