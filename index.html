@@ -17,6 +17,74 @@
             color: #0f0f0f;
         }
 
+        /* Login overlay TYLKO dla formularza */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .login-box {
+            background: #ffffff;
+            padding: 48px 40px;
+            border-radius: 24px;
+            border: 1px solid #e6e6e6;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+
+        .login-box h2 {
+            font-size: 32px;
+            color: #0099ff;
+            margin-bottom: 8px;
+        }
+
+        .login-box p {
+            color: #666;
+            margin-bottom: 32px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: #0099ff;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: #0099ff;
+            border: none;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-error {
+            color: #ff3b30;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
         .navbar {
             background: #ffffff;
             border-bottom: 1px solid #e6e6e6;
@@ -311,12 +379,24 @@
     </div>
 </div>
 
+<!-- Login overlay TYLKO dla formularza -->
+<div class="login-overlay" id="loginOverlay" style="display: none;">
+    <div class="login-box">
+        <h2>OnlyFans</h2>
+        <p>Wprowadź hasło, aby utworzyć profil</p>
+        <input type="password" id="passwordInput" placeholder="Hasło" autofocus>
+        <button onclick="checkPassword()">Kontynuuj</button>
+        <div id="loginError" class="login-error"></div>
+    </div>
+</div>
+
 <script>
-    // Ścieżka do pliku JSON
+    const CORRECT_PASSWORD = "dziadkakasa";
     const JSON_FILE = "creators.json";
     
     let creators = {};
     let currentProfileUsername = null;
+    let isFormLocked = true;
 
     async function loadCreators() {
         try {
@@ -324,7 +404,6 @@
             if (!response.ok) throw new Error('Nie znaleziono pliku');
             creators = await response.json();
         } catch (error) {
-            console.log('Brak pliku creators.json, używam pustej bazy');
             creators = {};
         }
         render();
@@ -335,11 +414,38 @@
         const match = path.match(/^\/@(.+)$/);
         
         if (match) {
+            // Profil publiczny – NIE wymaga hasła
+            document.getElementById('loginOverlay').style.display = 'none';
             renderProfile(match[1]);
         } else {
-            renderForm();
+            // Strona główna (formularz) – wymaga hasła
+            if (isFormLocked) {
+                document.getElementById('loginOverlay').style.display = 'flex';
+                document.getElementById('app').innerHTML = '';
+            } else {
+                document.getElementById('loginOverlay').style.display = 'none';
+                renderForm();
+            }
         }
     }
+
+    function checkPassword() {
+        const password = document.getElementById('passwordInput').value;
+        const errorDiv = document.getElementById('loginError');
+        
+        if (password === CORRECT_PASSWORD) {
+            isFormLocked = false;
+            document.getElementById('loginOverlay').style.display = 'none';
+            renderForm();
+        } else {
+            errorDiv.innerHTML = '❌ Nieprawidłowe hasło. Spróbuj ponownie.';
+            document.getElementById('passwordInput').value = '';
+        }
+    }
+
+    document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') checkPassword();
+    });
 
     function renderForm() {
         const app = document.getElementById('app');
@@ -426,7 +532,6 @@
                 <div class="error-page">
                     <h2>😕 Nie znaleziono profilu</h2>
                     <p>Użytkownik <strong>@${username}</strong> nie istnieje.</p>
-                    <p>Dodaj go ręcznie w pliku <code>creators.json</code></p>
                     <button class="nav-btn primary" onclick="navigateToHome()">Strona główna</button>
                 </div>
             `;
