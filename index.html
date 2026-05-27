@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OnlyFans – Dołącz do twórców</title>
+    <title>OnlyFans – Twórcy</title>
     <style>
         * {
             margin: 0;
@@ -12,16 +12,15 @@
         }
 
         body {
-            background: #0d0d0f;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            color: #fff;
+            background: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            color: #0f0f0f;
         }
 
-        /* Navbar jak OnlyFans */
         .navbar {
-            background: #0a0a0c;
-            border-bottom: 1px solid #1f1f23;
-            padding: 16px 32px;
+            background: #ffffff;
+            border-bottom: 1px solid #e6e6e6;
+            padding: 16px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -33,66 +32,58 @@
         .logo {
             font-size: 28px;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #0088ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
+            color: #0099ff;
+            text-decoration: none;
+            cursor: pointer;
         }
 
         .nav-buttons {
             display: flex;
-            gap: 16px;
+            gap: 12px;
         }
 
         .nav-btn {
             background: transparent;
-            border: 1px solid #2a2a2e;
-            color: white;
-            padding: 8px 20px;
+            border: 1px solid #ddd;
+            color: #0f0f0f;
+            padding: 8px 24px;
             border-radius: 30px;
             font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
         .nav-btn.primary {
-            background: #0088ff;
+            background: #0099ff;
             border: none;
+            color: white;
         }
 
-        /* Główny kontener */
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 24px;
-            display: flex;
-            gap: 40px;
-            flex-wrap: wrap;
+            padding: 48px 24px;
         }
 
         /* Formularz */
-        .form-section {
-            flex: 1.2;
-            min-width: 300px;
-        }
-
         .card {
-            background: #1a1a1e;
+            background: #ffffff;
             border-radius: 24px;
             padding: 32px;
-            border: 1px solid #2a2a2e;
+            border: 1px solid #e6e6e6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .card h2 {
-            font-size: 28px;
+            font-size: 26px;
             margin-bottom: 8px;
         }
 
-        .card .sub {
-            color: #888;
+        .sub {
+            color: #666;
             margin-bottom: 28px;
-            font-size: 14px;
         }
 
         .form-group {
@@ -103,297 +94,290 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #aaa;
+            color: #333;
             margin-bottom: 8px;
         }
 
         input, textarea {
             width: 100%;
             padding: 14px 16px;
-            background: #0d0d0f;
-            border: 1px solid #2a2a2e;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
             border-radius: 12px;
-            color: white;
             font-size: 15px;
-            transition: all 0.2s;
         }
 
         input:focus, textarea:focus {
             outline: none;
-            border-color: #0088ff;
-            box-shadow: 0 0 0 3px rgba(0,136,255,0.2);
+            border-color: #0099ff;
         }
 
-        /* Upload */
         .upload-box {
-            background: #0d0d0f;
-            border: 2px dashed #2a2a2e;
+            background: #f8f8f8;
+            border: 2px dashed #ddd;
             border-radius: 16px;
             padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
         .upload-box:hover {
-            border-color: #0088ff;
-            background: #111115;
+            border-color: #0099ff;
         }
 
         .btn-submit {
             width: 100%;
-            background: #0088ff;
+            background: #0099ff;
             border: none;
-            padding: 14px;
+            padding: 16px;
             border-radius: 40px;
             color: white;
             font-weight: bold;
             font-size: 16px;
             cursor: pointer;
             margin-top: 16px;
-            transition: transform 0.1s;
         }
 
-        .btn-submit:hover {
-            background: #0077e6;
-            transform: scale(1.01);
-        }
-
-        /* Podgląd profilu */
-        .preview-section {
-            flex: 0.9;
-            min-width: 320px;
-        }
-
-        .profile-preview {
-            background: #1a1a1e;
+        /* Profil */
+        .profile-header {
+            background: #fafafa;
             border-radius: 24px;
             overflow: hidden;
-            border: 1px solid #2a2a2e;
-            position: sticky;
-            top: 100px;
-        }
-
-        .preview-header {
-            padding: 16px 20px;
-            background: #0d0d0f;
-            border-bottom: 1px solid #2a2a2e;
-            font-weight: 600;
-            font-size: 14px;
-            color: #aaa;
-        }
-
-        .profile-content {
-            padding: 0 0 24px 0;
-        }
-
-        .banner-area {
-            height: 140px;
-            background: #0d0d0f;
-            overflow: hidden;
+            border: 1px solid #e6e6e6;
         }
 
         .banner-img {
             width: 100%;
-            height: 100%;
+            height: 200px;
             object-fit: cover;
+            background: #e6e6e6;
         }
 
-        .avatar-area {
-            padding: 0 20px;
-            margin-top: -50px;
+        .profile-info {
+            padding: 20px 28px 28px;
+            position: relative;
         }
 
         .avatar-img {
-            width: 96px;
-            height: 96px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            border: 4px solid #1a1a1e;
+            border: 4px solid white;
+            margin-top: -60px;
             object-fit: cover;
-            background: #0d0d0f;
+            background: #e6e6e6;
         }
 
-        .info-area {
-            padding: 16px 20px 0;
-        }
-
-        .preview-name {
-            font-size: 20px;
+        .profile-name {
+            font-size: 24px;
             font-weight: 700;
-        }
-
-        .preview-username {
-            color: #0088ff;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-
-        .preview-bio {
-            color: #aaa;
-            font-size: 14px;
             margin-top: 12px;
-            line-height: 1.5;
+        }
+
+        .profile-username {
+            color: #0099ff;
+            margin: 4px 0;
+        }
+
+        .profile-bio {
+            color: #666;
+            margin-top: 12px;
         }
 
         .status {
             margin-top: 16px;
             text-align: center;
-            font-size: 14px;
         }
 
-        @media (max-width: 800px) {
-            .container { flex-direction: column; }
-            .navbar { padding: 12px 20px; }
+        .error {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .webhook-field {
+            background: #fff9f0;
+            border-color: #ffcc80;
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar OnlyFans -->
 <div class="navbar">
-    <div class="logo">OnlyFans</div>
+    <div class="logo" onclick="navigateToHome()">OnlyFans</div>
     <div class="nav-buttons">
-        <button class="nav-btn">Zaloguj</button>
-        <button class="nav-btn primary">Dołącz</button>
+        <button class="nav-btn" onclick="navigateToHome()">Strona główna</button>
+        <button class="nav-btn primary" onclick="navigateToHome()">Dołącz</button>
     </div>
 </div>
 
-<div class="container">
-    <!-- LEWA STRONA – FORMULARZ -->
-    <div class="form-section">
-        <div class="card">
-            <h2>Zostań twórcą 🔥</h2>
-            <div class="sub">Dołącz do najlepszej platformy dla kreatywnych</div>
-
-            <form id="creatorForm">
-                <div class="form-group">
-                    <label>Imię i nazwisko</label>
-                    <input type="text" id="fullName" placeholder="Jan Kowalski" required>
-                </div>
-
-                <div class="form-group">
-                    <label>@nazwa użytkownika</label>
-                    <input type="text" id="username" placeholder="@jan_kowalski" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Nazwa wyświetlana</label>
-                    <input type="text" id="displayName" placeholder="Janek Official" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Bio / Opis</label>
-                    <textarea id="bio" rows="3" placeholder="Opowiedz swoim fanom coś o sobie..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Zdjęcie profilowe</label>
-                    <div class="upload-box" id="avatarBox">
-                        <input type="file" id="avatarInput" accept="image/*" hidden>
-                        <span>📸 Kliknij, aby dodać avatar</span><br>
-                        <small style="color:#666;">PNG, JPG – kwadratowe</small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Baner (nagłówek)</label>
-                    <div class="upload-box" id="bannerBox">
-                        <input type="file" id="bannerInput" accept="image/*" hidden>
-                        <span>🎨 Kliknij, aby dodać baner</span><br>
-                        <small style="color:#666;">Szeroki obraz (np. 1200x400)</small>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-submit">✨ Opublikuj profil ✨</button>
-                <div id="status" class="status"></div>
-            </form>
-        </div>
-    </div>
-
-    <!-- PRAWA STRONA – PODGLĄD PROFILU -->
-    <div class="preview-section">
-        <div class="profile-preview">
-            <div class="preview-header">PODGLĄD PROFILU</div>
-            <div class="profile-content">
-                <div class="banner-area">
-                    <img id="previewBanner" class="banner-img" src="https://placehold.co/1200x400/111115/333?text=Twój+baner">
-                </div>
-                <div class="avatar-area">
-                    <img id="previewAvatar" class="avatar-img" src="https://placehold.co/200/111115/333?text=Avatar">
-                </div>
-                <div class="info-area">
-                    <div class="preview-name" id="previewName">Twoja nazwa</div>
-                    <div class="preview-username" id="previewUsername">@uzytkownik</div>
-                    <div class="preview-bio" id="previewBio">Twój opis pojawi się tutaj</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div id="app" class="container"></div>
 
 <script>
-    // Elementy formularza
-    const fullName = document.getElementById('fullName');
-    const username = document.getElementById('username');
-    const displayName = document.getElementById('displayName');
-    const bio = document.getElementById('bio');
+    // Przechowywanie profili
+    let creators = JSON.parse(localStorage.getItem('onlyfans_creators') || '{}');
 
-    // Elementy podglądu
-    const previewName = document.getElementById('previewName');
-    const previewUsername = document.getElementById('previewUsername');
-    const previewBio = document.getElementById('previewBio');
-    const previewAvatar = document.getElementById('previewAvatar');
-    const previewBanner = document.getElementById('previewBanner');
-
-    // Aktualizacja tekstu na żywo
-    function updateText() {
-        previewName.innerText = displayName.value || "Twoja nazwa";
-        previewUsername.innerText = username.value || "@uzytkownik";
-        previewBio.innerText = bio.value || "Twój opis pojawi się tutaj";
+    // Zapisz profil
+    function saveCreator(username, data) {
+        creators[username] = data;
+        localStorage.setItem('onlyfans_creators', JSON.stringify(creators));
     }
 
-    fullName.addEventListener('input', updateText);
-    username.addEventListener('input', updateText);
-    displayName.addEventListener('input', updateText);
-    bio.addEventListener('input', updateText);
-
-    // Upload avatara
-    const avatarBox = document.getElementById('avatarBox');
-    const avatarInput = document.getElementById('avatarInput');
-    avatarBox.addEventListener('click', () => avatarInput.click());
-    avatarInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => { previewAvatar.src = ev.target.result; };
-            reader.readAsDataURL(file);
+    // Routing
+    function render() {
+        const path = window.location.pathname;
+        const match = path.match(/^\/@(.+)$/);
+        
+        if (match) {
+            const username = match[1];
+            renderProfile(username);
+        } else {
+            renderForm();
         }
-    });
+    }
 
-    // Upload banera
-    const bannerBox = document.getElementById('bannerBox');
-    const bannerInput = document.getElementById('bannerInput');
-    bannerBox.addEventListener('click', () => bannerInput.click());
-    bannerInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => { previewBanner.src = ev.target.result; };
-            reader.readAsDataURL(file);
+    // Strona główna – formularz rejestracji
+    function renderForm() {
+        const app = document.getElementById('app');
+        app.innerHTML = `
+            <div class="card">
+                <h2>🔥 Zostań twórcą</h2>
+                <div class="sub">Dołącz do OnlyFans – wypełnij formularz</div>
+                <form id="creatorForm">
+                    <div class="form-group">
+                        <label>Imię i nazwisko</label>
+                        <input type="text" id="fullName" placeholder="Jan Kowalski" required>
+                    </div>
+                    <div class="form-group">
+                        <label>@nazwa użytkownika</label>
+                        <input type="text" id="username" placeholder="@jan_kowalski" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nazwa wyświetlana</label>
+                        <input type="text" id="displayName" placeholder="Janek Official" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Bio / Opis</label>
+                        <textarea id="bio" rows="3" placeholder="Opowiedz coś o sobie..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>📸 Zdjęcie profilowe</label>
+                        <div class="upload-box" id="avatarBox">
+                            <input type="file" id="avatarInput" accept="image/*" hidden>
+                            <span>➕ Kliknij, aby dodać avatar</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>🎨 Baner</label>
+                        <div class="upload-box" id="bannerBox">
+                            <input type="file" id="bannerInput" accept="image/*" hidden>
+                            <span>➕ Kliknij, aby dodać baner</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>🔗 Webhook Discord (opcjonalne)</label>
+                        <input type="url" id="webhookUrl" class="webhook-field" placeholder="https://discord.com/api/webhooks/...">
+                        <small style="color:#999;">Przyda się później do powiadomień</small>
+                    </div>
+                    <button type="submit" class="btn-submit">✨ Opublikuj profil ✨</button>
+                    <div id="status" class="status"></div>
+                </form>
+            </div>
+        `;
+
+        let avatarBase64 = null;
+        let bannerBase64 = null;
+
+        document.getElementById('avatarBox')?.addEventListener('click', () => document.getElementById('avatarInput').click());
+        document.getElementById('avatarInput')?.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => avatarBase64 = ev.target.result;
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('bannerBox')?.addEventListener('click', () => document.getElementById('bannerInput').click());
+        document.getElementById('bannerInput')?.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => bannerBase64 = ev.target.result;
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('creatorForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const usernameRaw = document.getElementById('username').value;
+            const username = usernameRaw.startsWith('@') ? usernameRaw.slice(1) : usernameRaw;
+            const displayName = document.getElementById('displayName').value;
+            const bio = document.getElementById('bio').value;
+            const webhook = document.getElementById('webhookUrl').value;
+
+            if (!avatarBase64 || !bannerBase64) {
+                document.getElementById('status').innerHTML = '<span style="color:red;">❌ Dodaj avatar i baner</span>';
+                return;
+            }
+
+            const profileData = {
+                fullName,
+                displayName,
+                bio,
+                avatar: avatarBase64,
+                banner: bannerBase64,
+                webhook,
+                created: new Date().toISOString()
+            };
+
+            saveCreator(username, profileData);
+            document.getElementById('status').innerHTML = '<span style="color:#0099ff;">✅ Profil zapisany! Przekierowanie...</span>';
+            setTimeout(() => {
+                window.location.href = `/@${username}`;
+            }, 1500);
+        });
+    }
+
+    // Podgląd profilu
+    function renderProfile(username) {
+        const app = document.getElementById('app');
+        const profile = creators[username];
+
+        if (!profile) {
+            app.innerHTML = `
+                <div class="error">
+                    <h2>😕 Nie znaleziono profilu</h2>
+                    <p>Użytkownik <strong>@${username}</strong> nie istnieje.</p>
+                    <button class="nav-btn primary" onclick="navigateToHome()" style="margin-top:20px;">Zarejestruj się</button>
+                </div>
+            `;
+            return;
         }
-    });
 
-    // Obsługa submit (tylko informacja – bez webhooka)
-    document.getElementById('creatorForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const statusDiv = document.getElementById('status');
-        statusDiv.innerHTML = '<span style="color:#0088ff;">✅ Profil gotowy! (webhook w następnym planie)</span>';
-        setTimeout(() => {
-            statusDiv.innerHTML = '';
-        }, 3000);
-    });
+        app.innerHTML = `
+            <div class="profile-header">
+                <img class="banner-img" src="${profile.banner}" alt="baner">
+                <div class="profile-info">
+                    <img class="avatar-img" src="${profile.avatar}" alt="avatar">
+                    <div class="profile-name">${profile.displayName}</div>
+                    <div class="profile-username">@${username}</div>
+                    <div class="profile-bio">${profile.bio || 'Brak opisu'}</div>
+                </div>
+            </div>
+            <div style="margin-top: 24px; text-align: center; color: #666;">
+                <small>Profil utworzony: ${new Date(profile.created).toLocaleDateString()}</small>
+            </div>
+        `;
+    }
+
+    function navigateToHome() {
+        window.location.href = '/';
+    }
+
+    window.addEventListener('popstate', render);
+    render();
 </script>
 </body>
 </html>
